@@ -16,6 +16,8 @@ public class robotHardware {
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
+    public DcMotor lLift;
+    public DcMotor rLift;
     public TouchSensor touchSensor;
 
     public void init(){
@@ -29,6 +31,9 @@ public class robotHardware {
         bLeft = myOpMode.hardwareMap.get(DcMotor.class, "bLeft");
         bRight = myOpMode.hardwareMap.get(DcMotor.class, "bRight");
 
+        lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
+        rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
+
         fLeft.setDirection(DcMotor.Direction.FORWARD);
         fRight.setDirection(DcMotor.Direction.REVERSE);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -39,10 +44,16 @@ public class robotHardware {
         bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         myOpMode.telemetry.addData( "status", "initialized");
@@ -81,6 +92,34 @@ public class robotHardware {
 
          */
     }
+
+    public void raiseLift() {
+        if (rLift.getCurrentPosition() < 1000) {
+            rLift.setTargetPosition(1000);
+            lLift.setTargetPosition(1000);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setPower(1);
+            lLift.setPower(1);
+        }
+    }
+
+    public void lowerLift() {
+        if (rLift.getCurrentPosition() > 0) {
+            rLift.setTargetPosition(0);
+            lLift.setTargetPosition(0);
+            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rLift.setPower(-1);
+            lLift.setPower(-1);
+        }
+    }
+
+    public void stopLift() {
+        rLift.setTargetPosition(rLift.getCurrentPosition());
+        lLift.setTargetPosition(lLift.getCurrentPosition());
+    }
+
 
     public void setDrivePower(double v1, double v2, double v3, double v4) {
         // Output the values to the motor drives.
