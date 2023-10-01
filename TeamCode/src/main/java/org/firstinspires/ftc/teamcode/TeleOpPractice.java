@@ -22,7 +22,13 @@ public class TeleOpPractice extends LinearOpMode {
         while (opModeIsActive()){
 
             telemetry.addData("status","started");
-            telemetry.addData("touch sensor", robot.touchSensor.getValue());
+            if (robot.touchSensor.isPressed()) {
+                telemetry.addData("Touch Sensor", "Is Pressed");
+            }
+            else {
+                telemetry.addData("Touch Sensor", "Is Not Pressed");
+            }
+
             telemetry.update();
 
         }
