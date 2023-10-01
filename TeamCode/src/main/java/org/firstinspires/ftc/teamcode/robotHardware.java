@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -23,13 +24,15 @@ public class robotHardware {
     public void init(){
 //        SENSORS
 
-        touchSensor = myOpMode.hardwareMap.get(TouchSensor.class, "touchsensor");
+        touchSensor = myOpMode.hardwareMap.get(TouchSensor.class, "touchsensor1");
 
 //        MOTORS
         fLeft = myOpMode.hardwareMap.get(DcMotor.class, "fLeft");
         fRight = myOpMode.hardwareMap.get(DcMotor.class, "fRight");
         bLeft = myOpMode.hardwareMap.get(DcMotor.class, "bLeft");
         bRight = myOpMode.hardwareMap.get(DcMotor.class, "bRight");
+        lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
+        rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
@@ -38,6 +41,10 @@ public class robotHardware {
         fRight.setDirection(DcMotor.Direction.REVERSE);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
+
+        lLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        rLift.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -105,7 +112,7 @@ public class robotHardware {
     }
 
     public void lowerLift() {
-        if (rLift.getCurrentPosition() > 0) {
+        if (rLift.getCurrentPosition() > 0) { //if not touching button go back until it does, then reset your encoders
             rLift.setTargetPosition(0);
             lLift.setTargetPosition(0);
             rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -119,7 +126,6 @@ public class robotHardware {
         rLift.setTargetPosition(rLift.getCurrentPosition());
         lLift.setTargetPosition(lLift.getCurrentPosition());
     }
-
 
     public void setDrivePower(double v1, double v2, double v3, double v4) {
         // Output the values to the motor drives.
