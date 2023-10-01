@@ -22,9 +22,8 @@ public class TeleOpPractice extends LinearOpMode {
         while (opModeIsActive()){
 
             telemetry.addData("status","started");
+            telemetry.addData("touch sensor", robot.touchSensor.getValue());
             telemetry.update();
-
-            robot.driveRobot(gamepad1);
 
         }
     }

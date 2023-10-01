@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
 
@@ -15,8 +16,14 @@ public class robotHardware {
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
+    public TouchSensor touchSensor;
 
     public void init(){
+//        SENSORS
+
+        touchSensor = myOpMode.hardwareMap.get(TouchSensor.class, "touchsensor");
+
+//        MOTORS
         fLeft = myOpMode.hardwareMap.get(DcMotor.class, "fLeft");
         fRight = myOpMode.hardwareMap.get(DcMotor.class, "fRight");
         bLeft = myOpMode.hardwareMap.get(DcMotor.class, "bLeft");
@@ -53,7 +60,7 @@ public class robotHardware {
         double baLeft = (y-x+rx);
         double baRight = y+x-rx;
 
-        setDrivePower(frLeft, frRight, bLeft, bRight);
+        setDrivePower(frLeft, frRight, baLeft, baRight);
 
         //fLeft.setPower((frLeft));
         //fRight.setPower((frRight));
