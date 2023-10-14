@@ -14,35 +14,43 @@ public class TeleOpPractice extends LinearOpMode {
     robotHardware robot = new robotHardware(this);
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
 
         robot.init();
         waitForStart();
 
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 
-            telemetry.addData("status","started");
-
+            telemetry.addData("status", "started");
+            telemetry.update();
+/*
             if (robot.touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
             } else {
                 telemetry.addData("Touch Sensor", "Is Not Pressed");
             }
             telemetry.update();
+            if
+*/
+            //instanciation and then passing the control through
+            robot.driveRobot(gamepad1);
+            robot.rollerMove(gamepad1);
 
-            if (gamepad1.dpad_up){
-                robot.raiseLift();
-            } else if (gamepad1.dpad_down) {
+            //lift code
+            if (gamepad1.dpad_up) {
                 robot.lowerLift();
+            } else if (gamepad1.dpad_down) {
+                robot.raiseLift();
             } else {
                 robot.stopLift();
             }
 
+            //call to roller function if button pressed
+            if (gamepad1.x){
+                robot.rollerMove(gamepad1);
+            }
         }
+
+
     }
-
-
-
-
-
 }
