@@ -1,98 +1,13 @@
-//package org.firstinspires.ftc.teamcode;
-//
-//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//import com.qualcomm.robotcore.hardware.DcMotor;
-//import com.qualcomm.robotcore.hardware.Gamepad;
-//
-//import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
-//
-//public class robotHardware {
-//    private LinearOpMode myOpMode = null;
-//    public robotHardware(LinearOpMode opMode){
-//        myOpMode = opMode;
-//    }
-//    public DcMotor fLeft;
-//    public DcMotor fRight;
-//    public DcMotor bLeft;
-//    public DcMotor bRight;
-//
-//    public void init(){
-//        fLeft = myOpMode.hardwareMap.get(DcMotor.class, "fLeft");
-//        fRight = myOpMode.hardwareMap.get(DcMotor.class, "fRight");
-//        bLeft = myOpMode.hardwareMap.get(DcMotor.class, "bLeft");
-//        bRight = myOpMode.hardwareMap.get(DcMotor.class, "bRight");
-//
-//        fLeft.setDirection(DcMotor.Direction.FORWARD);
-//        fRight.setDirection(DcMotor.Direction.REVERSE);
-//        bLeft.setDirection(DcMotor.Direction.FORWARD);
-//        bRight.setDirection(DcMotor.Direction.REVERSE);
-//
-//        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//
-//        myOpMode.telemetry.addData( "status", "initialized");
-//        myOpMode.telemetry.update();
-//        myOpMode.waitForStart();
-//    }
-//
-//    public void driveRobot(Gamepad gamepad1){
-//        double y = -gamepad1.left_stick_y;
-//        double x = gamepad1.left_stick_x;
-//        double rx = -gamepad1.right_stick_x;
-//
-//        double frLeft =y+x+rx;
-//        double frRight =  y - x - rx  ;
-//        double baLeft = (y-x+rx);
-//        double baRight = y+x-rx;
-//
-//        fLeft.setPower((frLeft));
-//        fRight.setPower((frRight));
-//        bLeft.setPower(baLeft);
-//        bRight.setPower(baRight);
-//        /*double r = Math.hypot(gamepad1.left_stick_x,gamepad1.left_stick_y);
-//        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_y) - Math.PI/4;
-//        robotAngle = robotAngle+(Math.PI/2);
-//        double rightX = gamepad1.right_stick_x;
-//        final double v1 = r * Math.cos(robotAngle) + rightX;
-//        final double v2 = r * Math.sin(robotAngle) - rightX;
-//        final double v3 = r * Math.sin(robotAngle) + rightX;
-//        final double v4 = r * Math.cos(robotAngle) - rightX;
-//
-//        setDrivePower(v1, v2, v3, v4);
-//
-//         */
-//    }
-//
-//    public void setDrivePower(double v1, double v2, double v3, double v4) {
-//        // Output the values to the motor drives.
-//        fLeft.setPower(v1/1.3);
-//        fRight.setPower(v2/1.3);
-//        bLeft.setPower(v3/1.3);
-//        bRight.setPower(v4/1.3);
-//    }
-//
-//}
-//
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
-
-
-import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class robotHardware {
     private LinearOpMode myOpMode = null;
@@ -188,26 +103,27 @@ public class robotHardware {
 
         setDrivePower(frLeft, frRight, baLeft, baRight);
 
-        //fLeft.setPower((frLeft));
-        //fRight.setPower((frRight));
-//        bLeft.setPower(baLeft);
-//        bRight.setPower(baRight);
-
-
-        /*double r = Math.hypot(gamepad1.left_stick_x,gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_y) - Math.PI/4;
-        robotAngle = robotAngle+(Math.PI/2);
-        double rightX = gamepad1.right_stick_x;
-        final double v1 = r * Math.cos(robotAngle) + rightX;
-        final double v2 = r * Math.sin(robotAngle) - rightX;
-        final double v3 = r * Math.sin(robotAngle) + rightX;
-        final double v4 = r * Math.cos(robotAngle) - rightX;
-
-        setDrivePower(v1, v2, v3, v4);
-
-         */
     }
 
+    public void initOpenCV(SpikeDetectionPipeline pipeline){
+        WebcamName webcamName = myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1");
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
+
+        myOpMode.telemetry.addData("Initialized", "Hardware");
+        myOpMode.telemetry.addData("Initializing", "OpenCV");
+        myOpMode.telemetry.addData("Warning", "Do Not Start OpMode Until OpenCV Is Initialized");
+        myOpMode.telemetry.update();
+//        Synchronous because we don't want user to start auto before its ready
+        camera.openCameraDevice();
+        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+//        Start Signal Processing Pipeline
+        camera.setPipeline(pipeline);
+
+        myOpMode.telemetry.addData("Initialized", "Hardware");
+        myOpMode.telemetry.addData("Initialized", "OpenCV");
+        myOpMode.telemetry.addData("Status", "You may now start the OpMode");
+        myOpMode.telemetry.update();
+    }
 
     public void raiseLift() {
         if (lLift.getCurrentPosition() < 0) {
