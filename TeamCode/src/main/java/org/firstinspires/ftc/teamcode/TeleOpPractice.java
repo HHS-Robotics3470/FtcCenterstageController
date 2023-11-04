@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.teamcode.Logging;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,16 +13,38 @@ import java.util.FormatterClosedException;
 public class TeleOpPractice extends LinearOpMode {
 
     robotHardware robot = new robotHardware(this);
+    public boolean ifLaunched = false;
+    public boolean ifLifted = false;
+    public boolean xState = false;
+    public boolean yState = false;
+    public boolean bState = false;
+    public boolean ifOpen = false;
 
+    public TeleOpPractice() throws Exception
+    {
+        Logging.setup();
+        Logging.log("Starting Drive Circle Logging");
+    }
+
+
+
+    public String currentPos()
+    {
+        return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
+               ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
+                robot.dropper.getPosition()+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+");";
+    }
     @Override
     public void runOpMode() {
 
         robot.init();
+
         waitForStart();
 
         while (opModeIsActive()) {
 
             telemetry.addData("status", "started");
+            telemetry.addData("Servo Position", robot.getServoPosition());
             telemetry.update();
 /*
             if (robot.touchSensor.isPressed()) {
@@ -37,18 +60,67 @@ public class TeleOpPractice extends LinearOpMode {
             robot.rollerMove(gamepad1);
 
             //lift code
-            if (gamepad1.dpad_up) {
+            if (gamepad1.right_bumper) {
                 robot.lowerLift();
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1.left_bumper) {
                 robot.raiseLift();
             } else {
                 robot.stopLift();
             }
 
             //call to roller function if button pressed
-            if (gamepad1.x){
+            if (gamepad1.dpad_up){
+                robot.grabberMove(gamepad1.dpad_up);
+            }
+            else if(!gamepad1.dpad_up){
+                robot.grabberMove(gamepad1.dpad_up);
+            }
+
+            if (gamepad1.a){
                 robot.rollerMove(gamepad1);
             }
+
+
+//            if (gamepad1.y){
+//                robot.nine_eleven(ifLaunched);
+//                ifLaunched = !ifLaunched;
+//                //robot.nine_eleven(ifLaunched);
+//            }
+
+            if (gamepad1.y && !yState) {
+                robot.nine_eleven(ifLaunched);
+                ifLaunched = !ifLaunched;
+                yState = true;
+            } else if (!gamepad1.y && yState) {
+                yState = false;
+            }
+
+//            if (gamepad1.x){
+//                robot.lift_pixel(ifLifted);
+//                ifLifted = !ifLifted;
+//            }
+
+            if (gamepad1.x && !xState) {
+                robot.lift_pixel(ifLifted);
+                ifLifted = !ifLifted;
+                xState = true;
+            } else if (!gamepad1.x && xState) {
+                xState = false;
+            }
+
+//            if(gamepad1.b){
+//                robot.releasePixel();
+//            }
+
+            if (gamepad1.b && !bState) {
+                robot.releasePixel(ifOpen);
+                ifOpen = !ifOpen;
+                bState = true;
+            } else if (!gamepad1.b && bState) {
+                bState = false;
+            }
+
+            Logging.log(currentPos());
         }
 
 
