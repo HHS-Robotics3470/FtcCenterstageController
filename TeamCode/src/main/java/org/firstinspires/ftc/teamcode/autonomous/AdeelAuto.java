@@ -11,10 +11,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 public class AdeelAuto extends LinearOpMode {
 
     robotHardware robot = new robotHardware(this);
+//    LINE 1
     SpikeDetectionPipeline pipeline = new SpikeDetectionPipeline();
 
     @Override
     public void runOpMode(){
+//        LINE 2
         robot.initOpenCV(pipeline);
 //        robot.init();
         waitForStart();
