@@ -160,6 +160,14 @@ public class robotHardware {
         bRight.setPower(v4/1.3);
     }
 
+    public void setDrivePosition(double fL, double fR, double bL, double bR)
+    {
+        fLeft.setTargetPosition((int) fL);
+        fRight.setTargetPosition((int) fR);
+        bLeft.setTargetPosition((int) bL);
+        bRight.setTargetPosition((int) bR);
+    }
+
     public void grabberMove(boolean hbs){
 
             //roller.setTargetPosition(roller.getCurrentPosition() + 5);
@@ -182,7 +190,7 @@ public class robotHardware {
 
             //roller.setTargetPosition(roller.getCurrentPosition() + 5);
             //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            roller.setPower(0.05);
+            roller.setPower(0.9);
 
         }
         else
@@ -192,7 +200,7 @@ public class robotHardware {
     }
 
     public void releasePixel (boolean open) {
-            //double curPos = dropper.getPosition();
+//            double curPos = dropper.getPosition();
             dropper.setPosition(0.48);
             try {
                 Thread.sleep(100);
@@ -200,10 +208,11 @@ public class robotHardware {
                 ex.printStackTrace();
             }
             dropper.setPosition(0);
-//        if (open)
-//            dropper.setPosition(0.47);
-//        else
-//            dropper.setPosition(0);
+
+ /*       if (open)
+            dropper.setPosition(0.12);
+        else
+            dropper.setPosition(0);     */
     }
     public void nine_eleven(boolean launch){//also don't change this for the love of god once again
         double curPos = bomber.getPosition();
@@ -224,24 +233,30 @@ public class robotHardware {
             mover.setPosition(0.165);
     }
 
-    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, double drop, double move, double roll)
+    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double roll, boolean mirror)
     {
  //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
 //                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
 //                robot.dropper.getPosition()+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+");";
-        fLeft.setTargetPosition((int) fL);
-        fRight.setTargetPosition((int) fR);
-        bLeft.setTargetPosition((int) bL);
-        bRight.setTargetPosition((int) bR);
+//        fLeft.setTargetPosition((int) fL);
+//        fRight.setTargetPosition((int) fR);
+//        bLeft.setTargetPosition((int) bL);
+//        bRight.setTargetPosition((int) bR);
+
+        if(!mirror)
+            setDrivePosition(fL, fR, bL, bR);
+        else
+            setDrivePosition(fR, fL, bR, bL);
 
         lLift.setTargetPosition((int) lL);
         rLift.setTargetPosition((int) rL);
 
         roller.setTargetPosition((int) roll);
 
-        dropper.setPosition(drop);
         mover.setPosition(move);
+        if (drop)
+            releasePixel(true);
 
         fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -252,6 +267,7 @@ public class robotHardware {
         rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        roller.setPower(0.05);
 
         setDrivePower(0.6, 0.6, 0.6, 0.6);
         lLift.setPower(1);

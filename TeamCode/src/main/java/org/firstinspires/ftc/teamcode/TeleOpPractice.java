@@ -19,6 +19,10 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean yState = false;
     public boolean bState = false;
     public boolean ifOpen = false;
+    public boolean ifopened = false;
+    public boolean rstate = false;
+    public int markerNum = 0;
+
 
     public TeleOpPractice() throws Exception
     {
@@ -32,7 +36,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                robot.dropper.getPosition()+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+");";
+                ifopened+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+"ifMirror"+");";
     }
     @Override
     public void runOpMode() {
@@ -46,6 +50,8 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("status", "started");
             telemetry.addData("Servo Position", robot.getServoPosition());
             telemetry.update();
+
+            ifopened = false;
 /*
             if (robot.touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
@@ -76,6 +82,17 @@ public class TeleOpPractice extends LinearOpMode {
                 robot.grabberMove(gamepad1.dpad_up);
             }
 
+            if (gamepad2.y && !rstate)
+            {
+                Logging.log("//Marker " + markerNum );
+                markerNum++;
+                rstate = true;
+            }
+            else if (!gamepad2.y && rstate) {
+                rstate = false;
+            }
+
+
             if (gamepad1.a){
                 robot.rollerMove(gamepad1);
             }
@@ -88,6 +105,7 @@ public class TeleOpPractice extends LinearOpMode {
 //            }
 
             if (gamepad1.y && !yState) {
+
                 robot.nine_eleven(ifLaunched);
                 ifLaunched = !ifLaunched;
                 yState = true;
@@ -115,6 +133,7 @@ public class TeleOpPractice extends LinearOpMode {
             if (gamepad1.b && !bState) {
                 robot.releasePixel(ifOpen);
                 ifOpen = !ifOpen;
+                ifopened = true;
                 bState = true;
             } else if (!gamepad1.b && bState) {
                 bState = false;
