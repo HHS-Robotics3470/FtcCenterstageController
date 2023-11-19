@@ -28,6 +28,9 @@ public class robotHardware {
     public Servo dropper;
     public Servo bomber;//remember to change the name for the love of god
     public Servo mover;
+    public Servo gears;
+    public Servo hook;
+
     public void init(){
 //        SENSORS
 
@@ -50,6 +53,8 @@ public class robotHardware {
         dropper = myOpMode.hardwareMap.get(Servo.class,"dropper");
         bomber = myOpMode.hardwareMap.get(Servo.class, "bomber");
         mover = myOpMode.hardwareMap.get(Servo.class, "mover");
+        gears = myOpMode.hardwareMap.get(Servo.class, "gears");
+        hook = myOpMode.hardwareMap.get(Servo.class, "hook");
 
         fLeft.setDirection(DcMotor.Direction.FORWARD);
         fRight.setDirection(DcMotor.Direction.REVERSE);
@@ -88,6 +93,7 @@ public class robotHardware {
         myOpMode.telemetry.update();
         myOpMode.waitForStart();
 
+        //initial positions
         mover.setPosition(0.2);
     }
 
@@ -103,6 +109,11 @@ public class robotHardware {
 
         setDrivePower(frLeft, frRight, baLeft, baRight);
 
+    }
+
+    public void rotateRobot(double pos)
+    {
+        setDrivePosition(fLeft.getCurrentPosition()-pos,fRight.getCurrentPosition()+pos,bLeft.getCurrentPosition()-pos,bRight.getCurrentPosition()+pos);
     }
 
     public void initOpenCV(SpikeDetectionPipeline pipeline){
@@ -168,21 +179,33 @@ public class robotHardware {
         bRight.setTargetPosition((int) bR);
     }
 
-    public void grabberMove(boolean hbs){
+    public void grabberMove(boolean hbs) {
 
-            //roller.setTargetPosition(roller.getCurrentPosition() + 5);
-            //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(hbs){
+        //roller.setTargetPosition(roller.getCurrentPosition() + 5);
+        //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (hbs) {
             grabber.setPower(5.0);
-        }
-        else{
+        } else {
             grabber.setPower(0);
-
         }
+    }
 
+    public void grabberMoveDown(boolean hbs) {
 
+        //roller.setTargetPosition(roller.getCurrentPosition() + 5);
+        //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (hbs) {
+            grabber.setPower(-5.0);
+        } else {
+            grabber.setPower(0);
+        }
+    }
 
-
+    public void hookRobot(boolean up){
+        if (up)
+            hook.setPosition(0.05);
+        else
+            hook.setPosition(0);
     }
 
     public void rollerMove(Gamepad gamepad1){
@@ -203,17 +226,19 @@ public class robotHardware {
 //            double curPos = dropper.getPosition();
             dropper.setPosition(0.48);
             try {
-                Thread.sleep(100);
+                Thread.sleep(150);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
             dropper.setPosition(0);
+
 
  /*       if (open)
             dropper.setPosition(0.12);
         else
             dropper.setPosition(0);     */
     }
+
     public void nine_eleven(boolean launch){//also don't change this for the love of god once again
         double curPos = bomber.getPosition();
         //bomber.setPosition(curPos+0.10);
@@ -227,13 +252,21 @@ public class robotHardware {
 
     public void lift_pixel(boolean ifLifted){
         double curPos = bomber.getPosition();
-        if (ifLifted)
+        if (ifLifted) {
+            //high position
             mover.setPosition(0);
-        else
+            gears.setPosition(0.05);
+        }
+        else {
+            //ground position
             mover.setPosition(0.165);
+            gears.setPosition(0.11);
+        }
     }
 
-    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double roll, boolean mirror)
+
+
+    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double roll, boolean mirror)
     {
  //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
@@ -257,6 +290,7 @@ public class robotHardware {
         mover.setPosition(move);
         if (drop)
             releasePixel(true);
+        gears.setPosition(gear);
 
         fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -291,7 +325,7 @@ public class robotHardware {
     }
     public double getServoPosition()
     {
-        return dropper.getPosition();
+        return gears.getPosition();
     }
 
 

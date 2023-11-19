@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.Logging;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import java.util.FormatterClosedException;
-
-@TeleOp(name="TestOpMode", group="blah")
-public class TeleOpPractice extends LinearOpMode {
+@TeleOp(name="LoggingOpMode", group="blah")
+public class LoggingOp extends LinearOpMode {
 
     robotHardware robot = new robotHardware(this);
     public boolean ifLaunched = false;
@@ -24,7 +18,7 @@ public class TeleOpPractice extends LinearOpMode {
     public int markerNum = 0;
 
 
-    public TeleOpPractice() throws Exception
+    public void TeleOpPractice() throws Exception
     {
         Logging.setup();
         Logging.log("Starting Drive Circle Logging");
@@ -35,8 +29,8 @@ public class TeleOpPractice extends LinearOpMode {
     public String currentPos()
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
-               ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifopened+","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.roller.getCurrentPosition()+",ifMirror);";
+                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
+                ifopened+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+", ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -78,14 +72,9 @@ public class TeleOpPractice extends LinearOpMode {
             if (gamepad1.dpad_up){
                 robot.grabberMove(gamepad1.dpad_up);
             }
-            else if(gamepad1.dpad_down){
-                robot.grabberMoveDown(gamepad1.dpad_down);
-            }
             else if(!gamepad1.dpad_up){
                 robot.grabberMove(gamepad1.dpad_up);
             }
-
-
 
             if (gamepad2.y && !rstate)
             {
@@ -112,7 +101,6 @@ public class TeleOpPractice extends LinearOpMode {
             if (gamepad1.y && !yState) {
 
                 robot.nine_eleven(ifLaunched);
-                robot.hookRobot(ifLaunched);
                 ifLaunched = !ifLaunched;
                 yState = true;
             } else if (!gamepad1.y && yState) {
@@ -144,7 +132,6 @@ public class TeleOpPractice extends LinearOpMode {
             } else if (!gamepad1.b && bState) {
                 bState = false;
             }
-
 
             Logging.log(currentPos());
         }
