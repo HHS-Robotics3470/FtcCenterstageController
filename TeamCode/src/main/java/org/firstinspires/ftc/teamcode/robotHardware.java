@@ -14,27 +14,48 @@ public class robotHardware {
     public robotHardware(LinearOpMode opMode){
         myOpMode = opMode;
     }
+
+    //Moters
     public DcMotor fLeft;
     public DcMotor fRight;
     public DcMotor bLeft;
     public DcMotor bRight;
     public DcMotor lLift;
     public DcMotor rLift;
-    //public TouchSensor touchSensor;
-    //public TouchSensor touchSensor2;
-    public DcMotor roller;
+//    public DcMotor roller;
     public DcMotor grabber;
-    //public DcMotor grapple;
+
+    //Servos
     public Servo dropper;
     public Servo bomber;//remember to change the name for the love of god
     public Servo mover;
     public Servo gears;
     public Servo hook;
+    public Servo claw;
+    public Servo roller;
+
+    //Servo states
+    public double dropActive = 0.48;
+    public double dropInActive = 0;
+
+    public double bombActive = 0.6;
+    public double bombInActive = 0.5;
+
+    public double moveActive = 0;
+    public double moveInActive = 0.165;
+    public double gearActive = 0.05;
+    public double gearInActive = 0.11;
+
+    public double hookActive = 0.5;
+    public double hookInActive = 0;
+
+    public double clawOpen = 0;
+    public double clawClosed = 0;
+    public double rollActive = 0;
+    public double rollInactive = 0;
+    public double rollDriving = 0;
 
     public void init(){
-//        SENSORS
-
-        //touchSensor = myOpMode.hardwareMap.get(TouchSensor.class, "touchsensor1");
 
 //        MOTORS
         fLeft = myOpMode.hardwareMap.get(DcMotor.class, "fLeft");
@@ -47,15 +68,19 @@ public class robotHardware {
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
-        roller = myOpMode.hardwareMap.get(DcMotor.class, "roller");
+//        roller = myOpMode.hardwareMap.get(DcMotor.class, "roller");
         grabber = myOpMode.hardwareMap.get(DcMotor.class, "grabber");
 
+        //Servos
         dropper = myOpMode.hardwareMap.get(Servo.class,"dropper");
         bomber = myOpMode.hardwareMap.get(Servo.class, "bomber");
         mover = myOpMode.hardwareMap.get(Servo.class, "mover");
         gears = myOpMode.hardwareMap.get(Servo.class, "gears");
         hook = myOpMode.hardwareMap.get(Servo.class, "hook");
+        claw = myOpMode.hardwareMap.get(Servo.class, "claw");
+        roller = myOpMode.hardwareMap.get(Servo.class, "roller");
 
+        //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
         fRight.setDirection(DcMotor.Direction.REVERSE);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -64,7 +89,7 @@ public class robotHardware {
         lLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        roller.setDirection(DcMotorSimple.Direction.REVERSE);
+//        roller.setDirection(DcMotorSimple.Direction.REVERSE);
         grabber.setDirection(DcMotorSimple.Direction.FORWARD);
 
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -75,7 +100,7 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -86,15 +111,21 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        roller.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        roller.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         grabber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         myOpMode.telemetry.addData( "status", "initialized");
         myOpMode.telemetry.update();
         myOpMode.waitForStart();
 
-        //initial positions
-        mover.setPosition(0.2);
+        //Servo initial positions
+        dropper.setPosition(dropInActive);
+        bomber.setPosition(bombInActive);
+        mover.setPosition(moveInActive);
+        gears.setPosition(gearInActive);
+        hook.setPosition(hookInActive);
+        claw.setPosition(clawClosed);
+        roller.setPosition(rollDriving);
     }
 
     public void driveRobot(Gamepad gamepad1){
@@ -109,6 +140,22 @@ public class robotHardware {
 
         setDrivePower(frLeft, frRight, baLeft, baRight);
 
+    }
+
+    public void setDrivePower(double v1, double v2, double v3, double v4) {
+        // Output the values to the motor drives.
+        fLeft.setPower(v1/1.3);
+        fRight.setPower(v2/1.3);
+        bLeft.setPower(v3/1.3);
+        bRight.setPower(v4/1.3);
+    }
+
+    public void setDrivePosition(double fL, double fR, double bL, double bR)
+    {
+        fLeft.setTargetPosition((int) fL);
+        fRight.setTargetPosition((int) fR);
+        bLeft.setTargetPosition((int) bL);
+        bRight.setTargetPosition((int) bR);
     }
 
     public void rotateRobot(double pos)
@@ -163,26 +210,8 @@ public class robotHardware {
         lLift.setTargetPosition(lLift.getCurrentPosition());
     }
 
-    public void setDrivePower(double v1, double v2, double v3, double v4) {
-        // Output the values to the motor drives.
-        fLeft.setPower(v1/1.3);
-        fRight.setPower(v2/1.3);
-        bLeft.setPower(v3/1.3);
-        bRight.setPower(v4/1.3);
-    }
-
-    public void setDrivePosition(double fL, double fR, double bL, double bR)
-    {
-        fLeft.setTargetPosition((int) fL);
-        fRight.setTargetPosition((int) fR);
-        bLeft.setTargetPosition((int) bL);
-        bRight.setTargetPosition((int) bR);
-    }
 
     public void grabberMove(boolean hbs) {
-
-        //roller.setTargetPosition(roller.getCurrentPosition() + 5);
-        //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if (hbs) {
             grabber.setPower(5.0);
         } else {
@@ -191,9 +220,6 @@ public class robotHardware {
     }
 
     public void grabberMoveDown(boolean hbs) {
-
-        //roller.setTargetPosition(roller.getCurrentPosition() + 5);
-        //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if (hbs) {
             grabber.setPower(-5.0);
         } else {
@@ -201,72 +227,80 @@ public class robotHardware {
         }
     }
 
-    public void hookRobot(boolean up){
-        if (up)
-            hook.setPosition(0.05);
-        else
-            hook.setPosition(0);
-    }
-
     public void rollerMove(Gamepad gamepad1){
         if (gamepad1.a) {
 
             //roller.setTargetPosition(roller.getCurrentPosition() + 5);
             //roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            roller.setPower(0.9);
+//            roller.setPower(0.9);
 
         }
         else
         {
-            roller.setPower(0);
+//            roller.setPower(0);
         }
     }
 
+    public void hookRobot(boolean up){
+        SwitchServo(hook, hookActive, hookInActive, up);
+    }
+
+    public void nine_eleven(boolean launch){//also don't change this for the love of god once again
+        SwitchServo(bomber, bombActive, bombInActive, launch);
+    }
+
     public void releasePixel (boolean open) {
-//            double curPos = dropper.getPosition();
-            dropper.setPosition(0.48);
+            dropper.setPosition(dropActive);
             try {
                 Thread.sleep(150);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            dropper.setPosition(0);
-
-
- /*       if (open)
-            dropper.setPosition(0.12);
-        else
-            dropper.setPosition(0);     */
-    }
-
-    public void nine_eleven(boolean launch){//also don't change this for the love of god once again
-        double curPos = bomber.getPosition();
-        //bomber.setPosition(curPos+0.10);
-        if (launch)
-            bomber.setPosition(0.5);
-        else
-            bomber.setPosition(0.6);
+            dropper.setPosition(dropInActive);
 
 
     }
 
     public void lift_pixel(boolean ifLifted){
-        double curPos = bomber.getPosition();
-        if (ifLifted) {
-            //high position
-            mover.setPosition(0);
-            gears.setPosition(0.05);
-        }
-        else {
-            //ground position
-            mover.setPosition(0.165);
-            gears.setPosition(0.11);
-        }
+        SwitchServo(mover, moveActive, moveInActive, ifLifted);
+        SwitchServo(gears, gearActive, gearInActive, ifLifted);
     }
 
+    public boolean recievePixal(boolean ifActive)
+    {
+        if (!ifActive)
+        {
+            //at driving position
+            roller.setPosition(rollInactive);
+            claw.setPosition(clawOpen);
+        }
+        else if (ifActive)
+        {
+            //at ground position
+            claw.setPosition(clawClosed);
+            roller.setPosition(rollActive);
+            claw.setPosition(clawOpen);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            claw.setPosition(clawClosed);
+            roller.setPosition(rollDriving);
+        }
+        return !ifActive;
+    }
 
+    public boolean SwitchServo(Servo s, double active, double inactive, boolean isActive)
+    {
+        if (!isActive)
+            s.setPosition(active);
+        else if (isActive)
+            s.setPosition(inactive);
+        return !isActive;
+    }
 
-    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double roll, boolean mirror)
+    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, boolean mirror)
     {
  //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
@@ -285,7 +319,7 @@ public class robotHardware {
         lLift.setTargetPosition((int) lL);
         rLift.setTargetPosition((int) rL);
 
-        roller.setTargetPosition((int) roll);
+//        roller.setTargetPosition((int) roll);
 
         mover.setPosition(move);
         if (drop)
@@ -300,12 +334,12 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        roller.setPower(0.05);
+//        roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        roller.setPower(0.05);
 
         setDrivePower(0.6, 0.6, 0.6, 0.6);
-        lLift.setPower(1);
-        rLift.setPower(1);
+        lLift.setPower(0.5);
+        rLift.setPower(0.5);
 
 
 
@@ -320,59 +354,10 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public double getServoPosition()
-    {
-        return gears.getPosition();
-    }
 
-
-/*
-    public void pushGrapple() {
-        if (lLift.getCurrentPosition() < 0) {
-            rLift.setTargetPosition(0);
-            lLift.setTargetPosition(0);
-            rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rLift.setPower(5);
-            lLift.setPower(5);
-        }
-    }
-
-    public void retractGrapple() {
-        if (rLift.getCurrentPosition() > -4250) { //if not touching button go back until it does, then reset your encoders
-            grapple.setTargetPosition(-4275);
-            grapple.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            grapple.setPower(-1);
-
-        }
-    }
-
-    public void stopGrapple() {
-        grapple.setTargetPosition(grapple.getCurrentPosition());
-    }
-
-*/
-
-    /*
-    public void grappleRaise(Gamepad gamepad1){
-        if (gamepad1.x){
-            grapple.setTargetPosition(roller.getCurrentPosition() + 5);
-            grapple.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            grapple.setPower(1);
-        }
-    }
-
-    public void grappleRetract(Gamepad gamepad1) {
-        if (gamepad1.b){
-            grapple.setTargetPosition(roller.getCurrentPosition() - 5);
-            grapple.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            grapple.setPower(1);
-        }
-    }
-*/
 
 
 }

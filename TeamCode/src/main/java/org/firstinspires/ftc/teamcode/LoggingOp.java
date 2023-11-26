@@ -12,6 +12,8 @@ public class LoggingOp extends LinearOpMode {
     public boolean xState = false;
     public boolean yState = false;
     public boolean bState = false;
+    public boolean aState = false;
+    public boolean ifGround = false;
     public boolean ifOpen = false;
     public boolean ifopened = false;
     public boolean rstate = false;
@@ -30,7 +32,7 @@ public class LoggingOp extends LinearOpMode {
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifopened+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+", ifMirror);";
+                ifopened+","+robot.mover.getPosition()+","+", ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -42,7 +44,7 @@ public class LoggingOp extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("status", "started");
-            telemetry.addData("Gears Servo Position", robot.getServoPosition());
+            telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.update();
 
             ifopened = false;
@@ -87,8 +89,15 @@ public class LoggingOp extends LinearOpMode {
             }
 
 
-            if (gamepad1.a){
-                robot.rollerMove(gamepad1);
+//            if (gamepad1.a){
+//                robot.rollerMove(gamepad1);
+//            }
+            if (gamepad1.a && !aState) {
+
+                ifGround = robot.recievePixal(ifGround);
+                yState = true;
+            } else if (!gamepad1.a && aState) {
+                aState = false;
             }
 
 
