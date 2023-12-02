@@ -23,6 +23,7 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean ifopened = false;
     public boolean ifHooked = false;
     public boolean rstate = false;
+    public boolean ifGround = false;
     public int markerNum = 0;
 
 
@@ -55,7 +56,7 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
             telemetry.addData("Mover Servo Position", robot.mover.getPosition());
             telemetry.addData("Hook Servo Position", robot.hook.getPosition());
-            telemetry.addData("Claw Servo Position", robot.claw.getPosition());
+            telemetry.addData("Claw Servo Position", 99);
             telemetry.addData("Roller Servo Position", robot.roller.getPosition());
             telemetry.update();
 
@@ -160,6 +161,7 @@ public class TeleOpPractice extends LinearOpMode {
             } else if (!gamepad1.b && bState) {
                 bState = false;
             }
+
 
 
             Logging.log(currentPos());

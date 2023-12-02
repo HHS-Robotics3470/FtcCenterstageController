@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -31,29 +32,29 @@ public class robotHardware {
     public Servo mover;
     public Servo gears;
     public Servo hook;
-    public Servo claw;
+    public CRServo claw;
     public Servo roller;
 
     //Servo states
-    public double dropActive = 0.48;
-    public double dropInActive = 0;
+    public final double dropActive = 0.48;
+    public final double dropInActive = 0;
 
-    public double bombActive = 0.6;
-    public double bombInActive = 0.5;
+    public final double bombActive = 0.6;
+    public final double bombInActive = 0.5;
 
-    public double moveActive = 0;
-    public double moveInActive = 0.165;
-    public double gearActive = 0.05;
-    public double gearInActive = 0.11;
+    public final double moveActive = 0;
+    public final double moveInActive = 0.165;
+    public final double gearActive = 0.3;
+    public final double gearInActive = 0.6;
 
-    public double hookActive = 0.5;
-    public double hookInActive = 0;
+    public final double hookActive = 0.5;
+    public final double hookInActive = 0;
 
-    public double clawOpen = 0;
-    public double clawClosed = 0;
-    public double rollActive = 0;
-    public double rollInactive = 0;
-    public double rollDriving = 0;
+    public final double clawOpen = 0;
+    public final double clawClosed = 0.5;
+    public final double rollActive = -0.05;
+    public final double rollGround = 0;
+    public final double rollDriving = -1;
 
     public void init(){
 
@@ -77,7 +78,7 @@ public class robotHardware {
         mover = myOpMode.hardwareMap.get(Servo.class, "mover");
         gears = myOpMode.hardwareMap.get(Servo.class, "gears");
         hook = myOpMode.hardwareMap.get(Servo.class, "hook");
-        claw = myOpMode.hardwareMap.get(Servo.class, "claw");
+        claw = myOpMode.hardwareMap.get(CRServo.class, "claw");
         roller = myOpMode.hardwareMap.get(Servo.class, "roller");
 
         //Direction and encoders
@@ -120,11 +121,11 @@ public class robotHardware {
 
         //Servo initial positions
         dropper.setPosition(dropInActive);
-        bomber.setPosition(bombInActive);
+//        bomber.setPosition(bombInActive);
         mover.setPosition(moveInActive);
         gears.setPosition(gearInActive);
         hook.setPosition(hookInActive);
-        claw.setPosition(clawClosed);
+//        claw.setPosition(clawClosed);
         roller.setPosition(rollDriving);
     }
 
@@ -160,7 +161,11 @@ public class robotHardware {
 
     public void rotateRobot(double pos)
     {
-        setDrivePosition(fLeft.getCurrentPosition()-pos,fRight.getCurrentPosition()+pos,bLeft.getCurrentPosition()-pos,bRight.getCurrentPosition()+pos);
+
+    }
+    public void strafeRobot(double pos)
+    {
+
     }
 
     public void initOpenCV(SpikeDetectionPipeline pipeline){
@@ -246,7 +251,7 @@ public class robotHardware {
     }
 
     public void nine_eleven(boolean launch){//also don't change this for the love of god once again
-        SwitchServo(bomber, bombActive, bombInActive, launch);
+//        SwitchServo(bomber, bombActive, bombInActive, launch);
     }
 
     public void releasePixel (boolean open) {
@@ -271,21 +276,21 @@ public class robotHardware {
         if (!ifActive)
         {
             //at driving position
-            roller.setPosition(rollInactive);
-            claw.setPosition(clawOpen);
+            roller.setPosition(rollGround);
+//            claw.setPosition(clawOpen);
         }
         else if (ifActive)
         {
             //at ground position
-            claw.setPosition(clawClosed);
+//            claw.setPosition(clawClosed);
             roller.setPosition(rollActive);
-            claw.setPosition(clawOpen);
+//            claw.setPosition(clawOpen);
             try {
                 Thread.sleep(200);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
-            claw.setPosition(clawClosed);
+//            claw.setPosition(clawClosed);
             roller.setPosition(rollDriving);
         }
         return !ifActive;
