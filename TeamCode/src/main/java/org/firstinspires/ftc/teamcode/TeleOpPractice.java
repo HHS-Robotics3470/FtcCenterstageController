@@ -159,6 +159,8 @@ public class TeleOpPractice extends LinearOpMode {
                 ifopened = true;
                 bState = true;
             } else if (!gamepad1.b && bState) {
+                robot.releasePixel(ifOpen);
+                ifOpen = !ifOpen;
                 bState = false;
             }
 
