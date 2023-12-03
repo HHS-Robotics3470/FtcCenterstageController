@@ -55,6 +55,7 @@ public class robotHardware {
     public final double rollActive = -0.05;
     public final double rollGround = 0;
     public final double rollDriving = -1;
+    public int rollerPos = 0;
 
     public void init(){
 
@@ -262,8 +263,6 @@ public class robotHardware {
                 ex.printStackTrace();
             }
             dropper.setPosition(dropInActive);
-
-
     }
 
     public void lift_pixel(boolean ifLifted){
@@ -271,29 +270,21 @@ public class robotHardware {
         SwitchServo(gears, gearActive, gearInActive, ifLifted);
     }
 
-    public boolean recievePixal(boolean ifActive)
+    public void recievePixel()
     {
-        if (!ifActive)
-        {
-            //at driving position
+        if (rollerPos == 0){
             roller.setPosition(rollGround);
-//            claw.setPosition(clawOpen);
+//            claw code
+            rollerPos = 1;
         }
-        else if (ifActive)
-        {
-            //at ground position
-//            claw.setPosition(clawClosed);
+        else if (rollerPos == 1){
             roller.setPosition(rollActive);
-//            claw.setPosition(clawOpen);
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-//            claw.setPosition(clawClosed);
+//             claw code
+            myOpMode.sleep(500);
             roller.setPosition(rollDriving);
+//            claw code
+            rollerPos = 1;
         }
-        return !ifActive;
     }
 
     public boolean SwitchServo(Servo s, double active, double inactive, boolean isActive)
