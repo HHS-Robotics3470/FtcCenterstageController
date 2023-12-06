@@ -1,13 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.Logging;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import java.util.FormatterClosedException;
 
 @TeleOp(name="TestOpMode", group="blah")
 public class TeleOpPractice extends LinearOpMode {
@@ -19,8 +13,11 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean yState = false;
     public boolean y2State = false;
     public boolean bState = false;
+    public boolean aState = false;
+    public boolean a2State = false;
     public boolean ifOpen = false;
-    public boolean ifopened = false;
+    public boolean ifClawOpened = false;
+    public boolean ifRolled = false;
     public boolean ifHooked = false;
     public boolean rstate = false;
     public boolean ifGround = false;
@@ -39,7 +36,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifopened+","+robot.mover.getPosition()+","+robot.gears.getPosition()+",ifMirror);";
+                ifClawOpened +","+robot.mover.getPosition()+","+robot.gears.getPosition()+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -56,11 +53,11 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
             telemetry.addData("Mover Servo Position", robot.mover.getPosition());
             telemetry.addData("Hook Servo Position", robot.hook.getPosition());
-            telemetry.addData("Claw Servo Position", 99);
+            telemetry.addData("Claw Servo Position", robot.claw.getPosition());
             telemetry.addData("Roller Servo Position", robot.roller.getPosition());
             telemetry.update();
 
-            ifopened = false;
+
 /*
             if (robot.touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
@@ -72,7 +69,7 @@ public class TeleOpPractice extends LinearOpMode {
 */
             //instanciation and then passing the control through
             robot.driveRobot(gamepad1);
-            robot.rollerMove(gamepad1);
+
 
             //lift code
             if (gamepad1.right_bumper) {
@@ -84,62 +81,60 @@ public class TeleOpPractice extends LinearOpMode {
             }
 
             //call to roller function if button pressed
-            if (gamepad1.dpad_up){
-                robot.grabberMove(gamepad1.dpad_up);
+            if (gamepad2.dpad_up){
+                robot.grabberMove(gamepad2.dpad_up);
             }
-            else if(gamepad1.dpad_down){
-                robot.grabberMoveDown(gamepad1.dpad_down);
+            else if(gamepad2.dpad_down){
+                robot.grabberMoveDown(gamepad2.dpad_down);
             }
-            else if(!gamepad1.dpad_up){
-                robot.grabberMove(gamepad1.dpad_up);
-            }
-
-
-
-            if (gamepad2.a && !rstate)
-            {
-                Logging.log("//Marker " + markerNum );
-                markerNum++;
-                rstate = true;
-            }
-            else if (!gamepad2.a && rstate) {
-                rstate = false;
+            else if(!gamepad2.dpad_up){
+                robot.grabberMove(gamepad2.dpad_up);
             }
 
 
-            if (gamepad1.a){
-                robot.rollerMove(gamepad1);
+
+
+
+
+            if (gamepad1.a && !aState) {
+
+
+                ifClawOpened = robot.useClaw(ifClawOpened);
+                aState = true;
+            } else if (!gamepad1.a && aState) {
+                aState = false;
+            }
+
+            if (gamepad2.a && !a2State) {
+
+                robot.useRoller(ifRolled);
+                ifRolled = !ifRolled;
+                a2State = true;
+            } else if (!gamepad2.a && a2State) {
+                a2State = false;
             }
 
 
-//            if (gamepad1.y){
-//                robot.nine_eleven(ifLaunched);
-//                ifLaunched = !ifLaunched;
-//                //robot.nine_eleven(ifLaunched);
-//            }
 
-            if (gamepad1.y && !yState) {
+
+            if (gamepad2.y && !yState) {
 
                 robot.nine_eleven(ifLaunched);
                 ifLaunched = !ifLaunched;
                 yState = true;
-            } else if (!gamepad1.y && yState) {
+            } else if (!gamepad2.y && yState) {
                 yState = false;
             }
 
-            if (gamepad2.y && !y2State) {
+            if (gamepad2.b && !y2State) {
 
                 robot.hookRobot(ifHooked);
                 ifHooked = !ifHooked;
                 yState = true;
-            } else if (!gamepad2.y && y2State) {
+            } else if (!gamepad2.b && y2State) {
                 y2State = false;
             }
 
-//            if (gamepad1.x){
-//                robot.lift_pixel(ifLifted);
-//                ifLifted = !ifLifted;
-//            }
 
             if (gamepad1.x && !xState) {
                 robot.lift_pixel(ifLifted);
@@ -149,20 +144,16 @@ public class TeleOpPractice extends LinearOpMode {
                 xState = false;
             }
 
-//            if(gamepad1.b){
-//                robot.releasePixel();
-//            }
 
             if (gamepad1.b && !bState) {
                 robot.releasePixel(ifOpen);
                 ifOpen = !ifOpen;
-                ifopened = true;
                 bState = true;
             } else if (!gamepad1.b && bState) {
-                robot.releasePixel(ifOpen);
-                ifOpen = !ifOpen;
                 bState = false;
             }
+
+
 
 
 
