@@ -10,8 +10,8 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean ifLaunched = false;
     public boolean ifLifted = false;
     public boolean xState = false;
-    public boolean yState = false;
     public boolean y2State = false;
+    public boolean b2State = false;
     public boolean bState = false;
     public boolean aState = false;
     public boolean a2State = false;
@@ -117,22 +117,22 @@ public class TeleOpPractice extends LinearOpMode {
 
 
 
-            if (gamepad2.y && !yState) {
+            if (gamepad2.y && !y2State) {
 
                 robot.nine_eleven(ifLaunched);
                 ifLaunched = !ifLaunched;
-                yState = true;
-            } else if (!gamepad2.y && yState) {
-                yState = false;
+                y2State = true;
+            } else if (!gamepad2.y && y2State) {
+                y2State = false;
             }
 
-            if (gamepad2.b && !y2State) {
+            if (gamepad2.b && !b2State) {
 
                 robot.hookRobot(ifHooked);
                 ifHooked = !ifHooked;
-                yState = true;
-            } else if (!gamepad2.b && y2State) {
-                y2State = false;
+                b2State = true;
+            } else if (!gamepad2.b && b2State) {
+                b2State = false;
             }
 
 

@@ -122,7 +122,7 @@ public class robotHardware {
 
         //Servo initial positions
         dropper.setPosition(dropInActive);
-//        bomber.setPosition(bombInActive);
+        bomber.setPosition(bombInActive);
         mover.setPosition(moveInActive);
         gears.setPosition(gearInActive);
         hook.setPosition(hookInActive);
@@ -162,7 +162,21 @@ public class robotHardware {
 
     public void rotateRobot(double pos)
     {
+        double fL = fLeft.getCurrentPosition() - pos;
+        double fR = fRight.getCurrentPosition() + pos;
+        double bL = bLeft.getCurrentPosition() - pos;
+        double bR = bRight.getCurrentPosition() + pos;
 
+        setDrivePosition(fL, fR, bL, bR);
+
+        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
+            setDrivePower(1, 1, 1, 1);
+        }
     }
     public void strafeRobot(double pos)
     {
@@ -256,35 +270,11 @@ public class robotHardware {
     }
 
     public void lift_pixel(boolean ifLifted){
-        if (rLift.getCurrentPosition() > liftAbove && lLift.getCurrentPosition() > liftAbove)
+        if (rLift.getCurrentPosition() > liftAbove || lLift.getCurrentPosition() > liftAbove)
             SwitchServo(mover, moveActive, moveInActive, ifLifted);
             SwitchServo(gears, gearActive, gearInActive, ifLifted);
     }
 
-//    public boolean recievePixal(boolean ifActive)
-//    {
-//        if (!ifActive)
-//        {
-//            //at driving position
-//            roller.setPosition(rollGround);
-////            claw.setPosition(clawOpen);
-//        }
-//        else if (ifActive)
-//        {
-//            //at ground position
-////            claw.setPosition(clawClosed);
-//            roller.setPosition(rollActive);
-////            claw.setPosition(clawOpen);
-//            try {
-//                Thread.sleep(200);
-//            } catch (InterruptedException ex) {
-//                ex.printStackTrace();
-//            }
-////            claw.setPosition(clawClosed);
-////            roller.setPosition(rollDriving);
-//        }
-//        return !ifActive;
-//    }
     public boolean useClaw(boolean ifOpen)
     {
         return SwitchServo(claw, clawOpen, clawClosed, ifOpen);
