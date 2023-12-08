@@ -39,19 +39,19 @@ public class robotHardware {
     public final double dropActive = 0.48;
     public final double dropInActive = 0;
 
-    public final double bombActive = 0.7;
+    public final double bombActive = 0.8;
     public final double bombInActive = 0.4;
 
     public final double moveActive = 0;
-    public final double moveInActive = 0.165;
+    public final double moveInActive = 0.6;
     public final double gearActive = 0.3;
-    public final double gearInActive = 0.6;
+    public final double gearInActive = 0.58;
 
-    public final double hookActive = 0.5;
+    public final double hookActive = 0.52;
     public final double hookInActive = 0;
 
     public final double clawOpen = 0;
-    public final double clawClosed = 0.045;
+    public final double clawClosed = 0.0475;
     public final double rollActive = 0.1;
     public final double rollGround = 0;
 
