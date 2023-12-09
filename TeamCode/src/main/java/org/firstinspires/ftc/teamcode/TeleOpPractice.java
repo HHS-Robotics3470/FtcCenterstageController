@@ -36,7 +36,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifClawOpened +","+robot.mover.getPosition()+","+robot.gears.getPosition()+",ifMirror);";
+                ifClawOpened +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -55,6 +55,7 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("Hook Servo Position", robot.hook.getPosition());
             telemetry.addData("Claw Servo Position", robot.claw.getPosition());
             telemetry.addData("Roller Servo Position", robot.roller.getPosition());
+            telemetry.addData("lift", robot.rLift.getCurrentPosition());
             telemetry.update();
 
 
@@ -72,9 +73,9 @@ public class TeleOpPractice extends LinearOpMode {
 
 
             //lift code
-            if (gamepad1.right_bumper) {
+            if (gamepad2.right_bumper) {
                 robot.lowerLift();
-            } else if (gamepad1.left_bumper) {
+            } else if (gamepad2.left_bumper) {
                 robot.raiseLift();
             } else {
                 robot.stopLift();

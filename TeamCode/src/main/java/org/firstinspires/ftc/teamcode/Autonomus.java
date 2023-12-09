@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.robotHardware;
 public class Autonomus extends LinearOpMode{
     robotHardware robot = new robotHardware(this);
+    boolean ifMirror = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,6 +19,7 @@ public class Autonomus extends LinearOpMode{
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                INSERT RECORDED MOVEMENTS HERE
+
 
 //                STOP RECORDED MOVEMENTS
             robot.resetEncoders();

@@ -23,7 +23,7 @@ public class robotHardware {
     public DcMotor bRight;
     public DcMotor lLift;
     public DcMotor rLift;
-//    public DcMotor roller;
+    //    public DcMotor roller;
     public DcMotor grabber;
 
     //Servos
@@ -36,7 +36,7 @@ public class robotHardware {
     public Servo roller;
 
     //Servo states
-    public final double dropActive = 0.48;
+    public final double dropActive = 0.3;
     public final double dropInActive = 0;
 
     public final double bombActive = 0.8;
@@ -44,7 +44,7 @@ public class robotHardware {
 
     public final double moveActive = 0;
     public final double moveInActive = 0.6;
-    public final double gearActive = 0.3;
+    public final double gearActive = 0.4;
     public final double gearInActive = 0.58;
 
     public final double hookActive = 0.52;
@@ -55,7 +55,7 @@ public class robotHardware {
     public final double rollActive = 0.1;
     public final double rollGround = 0;
 
-    public final double liftAbove = -4250;
+    public final double liftAbove = -1313;
 
     public void init(){
 
@@ -127,7 +127,7 @@ public class robotHardware {
         gears.setPosition(gearInActive);
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
-        roller.setPosition(rollGround);
+        roller.setPosition(rollActive);
     }
 
     public void driveRobot(Gamepad gamepad1){
@@ -258,21 +258,22 @@ public class robotHardware {
     }
 
     public void releasePixel (boolean open) {
-            dropper.setPosition(dropActive);
-            try {
-                Thread.sleep(150);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            dropper.setPosition(dropInActive);
+        dropper.setPosition(dropActive);
+        try {
+            Thread.sleep(75);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        dropper.setPosition(dropInActive);
 
 
     }
 
     public void lift_pixel(boolean ifLifted){
-        if (rLift.getCurrentPosition() > liftAbove || lLift.getCurrentPosition() > liftAbove)
+        if (rLift.getCurrentPosition() < liftAbove || lLift.getCurrentPosition() < liftAbove) {
             SwitchServo(mover, moveActive, moveInActive, ifLifted);
             SwitchServo(gears, gearActive, gearInActive, ifLifted);
+        }
     }
 
     public boolean useClaw(boolean ifOpen)
@@ -293,9 +294,9 @@ public class robotHardware {
         return !isActive;
     }
 
-    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, boolean mirror)
+    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
- //    for refrence
+        //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
 //                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
 //                robot.dropper.getPosition()+","+robot.mover.getPosition()+","+robot.roller.getCurrentPosition()+");";
@@ -313,11 +314,13 @@ public class robotHardware {
         rLift.setTargetPosition((int) rL);
 
 //        roller.setTargetPosition((int) roll);
-
+        claw.setPosition(clawPos);
+        roller.setPosition(roll);
         mover.setPosition(move);
         if (drop)
             releasePixel(true);
         gears.setPosition(gear);
+
 
         fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
