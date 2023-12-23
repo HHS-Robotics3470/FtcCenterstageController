@@ -32,20 +32,12 @@ public class RightSideAutonomous extends LinearOpMode {
             telemetry.update();
 //                MEDIUM JUNCTION STACK
 
-//            if (zone == 2)
-//            {
-//                recorded.run2(robot, ifMirror);
-//            }
-//            else if (zone == 1)
-//            {
-//                recorded.run1(robot, ifMirror);
-//            }
-//            else if (zone == 0)
-//            {
-//                recorded.run0(robot, ifMirror);
-//            }
-//            recorded.runBase(robot, ifMirror);
-            recorded.runPlace(robot, !ifMirror);
+            robot.rotateRobot(100);
+            robot.rotateRobot(-100);
+            robot.strafeRobot(100);
+            robot.strafeRobot(-100);
+            robot.moveRobot(100);
+            robot.moveRobot(-100);
 
 
             stop();

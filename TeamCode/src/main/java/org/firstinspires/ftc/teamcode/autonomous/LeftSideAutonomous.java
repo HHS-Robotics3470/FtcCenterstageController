@@ -25,19 +25,7 @@ public class LeftSideAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Tiiiiimothyyyy, I'm determining signal");
             telemetry.update();
             int zone = pipeline.getSpikePosition();
-            if (zone == 2)
-            {
-                recorded.run0(robot, ifMirror);
-            }
-            else if (zone == 1)
-            {
-                recorded.run1(robot, ifMirror);
-            }
-            else if (zone == 0)
-            {
-                recorded.run2(robot, ifMirror);
-            }
-//            recorded.runBase(robot, ifMirror);
+
 
             telemetry.addData("Status", "Yo Timbits, target zone determined");
             telemetry.addData("Status", "Hey Timmy!!! I'm parking in the "+zone);

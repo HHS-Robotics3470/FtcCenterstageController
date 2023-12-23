@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -34,6 +35,20 @@ public class robotHardware {
     public Servo hook;
     public Servo claw;
     public Servo roller;
+
+    //Odometry Pods
+    public DcMotorEx cWheel;
+
+    //Odometry
+    public double prevLeftPos = 0;
+    public double prevRightPos = 0;
+    public double prevCenterPos = 0;
+
+    public double trackWidth = 100;
+
+    public double xPos = 0;
+    public double yPos = 0;
+    public double rPos = 0;
 
     //Servo states
     public final double dropActive = 0.3;
@@ -82,11 +97,16 @@ public class robotHardware {
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
         roller = myOpMode.hardwareMap.get(Servo.class, "roller");
 
+        //Odometry Pods
+        cWheel = myOpMode.hardwareMap.get(DcMotorEx.class, "lTrack");
+
         //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
         fRight.setDirection(DcMotor.Direction.REVERSE);
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
+
+        cWheel.setDirection(DcMotor.Direction.FORWARD);
 
         lLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -104,6 +124,9 @@ public class robotHardware {
 
 //        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        cWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        cWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -169,18 +192,59 @@ public class robotHardware {
 
         setDrivePosition(fL, fR, bL, bR);
 
-        fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
+            fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             setDrivePower(1, 1, 1, 1);
         }
     }
     public void strafeRobot(double pos)
     {
+        double fL = fLeft.getCurrentPosition() + pos;
+        double fR = fRight.getCurrentPosition() - pos;
+        double bL = bLeft.getCurrentPosition() - pos;
+        double bR = bRight.getCurrentPosition() + pos;
 
+        setDrivePosition(fL, fR, bL, bR);
+
+
+
+        while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
+            fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            setDrivePower(1, 1, 1, 1);
+        }
+    }
+
+    public void moveRobot(double pos)
+    {
+        double fL = fLeft.getCurrentPosition() + pos;
+        double fR = fRight.getCurrentPosition() + pos;
+        double bL = bLeft.getCurrentPosition() - pos;
+        double bR = bRight.getCurrentPosition() - pos;
+
+        setDrivePosition(fL, fR, bL, bR);
+
+
+
+        while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
+            fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            setDrivePower(1, 1, 1, 1);
+        }
+    }
+
+    public void updateOdometry()
+    {
+        double deltaLeft;
     }
 
     public void initOpenCV(SpikeDetectionPipeline pipeline){

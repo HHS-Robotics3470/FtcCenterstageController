@@ -48,6 +48,7 @@ public class TeleOpPractice extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("status", "started");
+            telemetry.addData("encoder test pos", robot.cWheel.getCurrentPosition());
             telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.addData("Dropper Servo Position", robot.dropper.getPosition());
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
