@@ -32,7 +32,7 @@ public class LeftSideAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-
+            recorded.left_back_0(robot, true);
 
             stop();
         }

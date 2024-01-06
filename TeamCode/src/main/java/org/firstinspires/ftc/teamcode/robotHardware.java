@@ -51,16 +51,16 @@ public class robotHardware {
     public double rPos = 0;
 
     //Servo states
-    public final double dropActive = 0.3;
-    public final double dropInActive = 0;
+    public final double dropActive = 0;
+    public final double dropInActive = 0.85;
 
     public final double bombActive = 0.8;
     public final double bombInActive = 0.4;
 
     public final double moveActive = 0;
-    public final double moveInActive = 0.6;
-    public final double gearActive = 0.4;
-    public final double gearInActive = 0.58;
+    public final double moveInActive = 0.65;
+    public final double gearActive = 0.45;
+    public final double gearInActive = 0.65;
 
     public final double hookActive = 0.52;
     public final double hookInActive = 0;
@@ -70,7 +70,7 @@ public class robotHardware {
     public final double rollActive = 0.1;
     public final double rollGround = 0;
 
-    public final double liftAbove = -1313;
+    public final double liftAbove = -1148;
 
     public void init(){
 
@@ -324,7 +324,7 @@ public class robotHardware {
     public void releasePixel (boolean open) {
         dropper.setPosition(dropActive);
         try {
-            Thread.sleep(75);
+            Thread.sleep(200);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }

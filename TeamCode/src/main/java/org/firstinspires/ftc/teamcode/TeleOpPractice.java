@@ -20,7 +20,7 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean ifRolled = false;
     public boolean ifHooked = false;
     public boolean rstate = false;
-    public boolean ifGround = false;
+    public boolean ifDrop = false;
     public int markerNum = 0;
 
 
@@ -36,7 +36,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifClawOpened +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
+                ifDrop +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -138,11 +138,11 @@ public class TeleOpPractice extends LinearOpMode {
             }
 
 
-            if (gamepad1.x && !xState) {
+            if (gamepad2.x && !xState) {
                 robot.lift_pixel(ifLifted);
                 ifLifted = !ifLifted;
                 xState = true;
-            } else if (!gamepad1.x && xState) {
+            } else if (!gamepad2.x && xState) {
                 xState = false;
             }
 
@@ -150,6 +150,7 @@ public class TeleOpPractice extends LinearOpMode {
             if (gamepad1.b && !bState) {
                 robot.releasePixel(ifOpen);
                 ifOpen = !ifOpen;
+                ifDrop = true;
                 bState = true;
             } else if (!gamepad1.b && bState) {
                 bState = false;
@@ -160,6 +161,7 @@ public class TeleOpPractice extends LinearOpMode {
 
 
             Logging.log(currentPos());
+            ifDrop = false;
         }
 
 
