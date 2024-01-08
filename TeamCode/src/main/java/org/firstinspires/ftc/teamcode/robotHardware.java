@@ -58,7 +58,7 @@ public class robotHardware {
     public final double bombInActive = 0.4;
 
     public final double moveActive = 0;
-    public final double moveInActive = 0.65;
+    public final double moveInActive = 0.675;
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
@@ -400,7 +400,6 @@ public class robotHardware {
         setDrivePower(0.6, 0.6, 0.6, 0.6);
         lLift.setPower(0.5);
         rLift.setPower(0.5);
-
 
 
     }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 @TeleOp(name="TestOpMode", group="blah")
 public class TeleOpPractice extends LinearOpMode {
@@ -32,10 +33,10 @@ public class TeleOpPractice extends LinearOpMode {
 
 
 
-    public String currentPos()
+    public String currentPos(Gamepad gamepad1)
     {
         return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
-               ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
+                ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
                 ifDrop +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
     }
     @Override
@@ -160,7 +161,7 @@ public class TeleOpPractice extends LinearOpMode {
 
 
 
-            Logging.log(currentPos());
+            Logging.log(currentPos(gamepad1));
             ifDrop = false;
         }
 
