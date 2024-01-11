@@ -358,7 +358,7 @@ public class robotHardware {
         return !isActive;
     }
 
-    public void setMovementPosition(double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
+    public void setMovementPosition(/*double leftY, double leftX, double rightX, */double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
         //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
@@ -369,10 +369,23 @@ public class robotHardware {
 //        bLeft.setTargetPosition((int) bL);
 //        bRight.setTargetPosition((int) bR);
 
-        if(!mirror)
+//        double y = -leftY;
+//        double x = leftX;
+//        double rx = -rightX;
+//
+//        double frLeft = y + x + rx;
+//        double frRight = y - x - rx  ;
+//        double baLeft = y - x + rx;
+//        double baRight = y + x - rx;
+
+        if(!mirror) {
             setDrivePosition(fL, fR, bL, bR);
-        else
+//            setDrivePower(frLeft, frRight, baLeft, baRight);
+        }
+        else {
             setDrivePosition(fR, fL, bR, bL);
+//            setDrivePower(frRight, frLeft, baRight, baLeft);
+        }
 
         lLift.setTargetPosition((int) lL);
         rLift.setTargetPosition((int) rL);
@@ -396,13 +409,15 @@ public class robotHardware {
 
 //        roller.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //        roller.setPower(0.05);
-
-        setDrivePower(0.6, 0.6, 0.6, 0.6);
         lLift.setPower(0.5);
         rLift.setPower(0.5);
+        double n = 0.6;
+        setDrivePower(n,n,n,n);
 
 
     }
+
+
     public void resetEncoders()
     {
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
