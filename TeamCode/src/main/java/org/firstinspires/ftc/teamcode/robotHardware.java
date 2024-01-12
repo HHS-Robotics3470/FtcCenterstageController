@@ -11,6 +11,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+
 public class robotHardware {
     private LinearOpMode myOpMode = null;
     public robotHardware(LinearOpMode opMode){
@@ -37,19 +38,8 @@ public class robotHardware {
     public Servo roller;
 
     //Odometry Pods
-    public DcMotorEx cWheel;
-
-    //Odometry
-    public double prevLeftPos = 0;
-    public double prevRightPos = 0;
-    public double prevCenterPos = 0;
-
-    public double trackWidth = 100;
-
-    public double xPos = 0;
-    public double yPos = 0;
-    public double rPos = 0;
-
+    public DcMotorEx bCent;
+    
     //Servo states
     public final double dropActive = 0;
     public final double dropInActive = 0.85;
@@ -98,7 +88,7 @@ public class robotHardware {
         roller = myOpMode.hardwareMap.get(Servo.class, "roller");
 
         //Odometry Pods
-        cWheel = myOpMode.hardwareMap.get(DcMotorEx.class, "lTrack");
+        bCent = myOpMode.hardwareMap.get(DcMotorEx.class, "bCent");
 
         //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -106,7 +96,7 @@ public class robotHardware {
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
 
-        cWheel.setDirection(DcMotor.Direction.FORWARD);
+        bCent.setDirection(DcMotor.Direction.FORWARD);
 
         lLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -125,8 +115,8 @@ public class robotHardware {
 //        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        cWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        cWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bCent.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bCent.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -151,6 +141,7 @@ public class robotHardware {
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
         roller.setPosition(rollActive);
+
     }
 
     public void driveRobot(Gamepad gamepad1){
@@ -242,10 +233,6 @@ public class robotHardware {
         }
     }
 
-    public void updateOdometry()
-    {
-        double deltaLeft;
-    }
 
     public void initOpenCV(SpikeDetectionPipeline pipeline){
         WebcamName webcamName = myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -417,6 +404,52 @@ public class robotHardware {
 
     }
 
+    public void setMovementPositionAdvanced(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
+    {
+
+        double y = -leftY;
+        double x = leftX;
+        double rx = -rightX;
+
+        double frLeft = y + x + rx;
+        double frRight = y - x - rx  ;
+        double baLeft = y - x + rx;
+        double baRight = y + x - rx;
+
+        if(!mirror) {
+            setDrivePosition(fL, fR, bL, bR);
+            setDrivePower(frLeft, frRight, baLeft, baRight);
+        }
+        else {
+            setDrivePosition(fR, fL, bR, bL);
+            setDrivePower(frRight, frLeft, baRight, baLeft);
+        }
+
+        lLift.setTargetPosition((int) lL);
+        rLift.setTargetPosition((int) rL);
+
+        claw.setPosition(clawPos);
+        roller.setPosition(roll);
+        mover.setPosition(move);
+        if (drop)
+            releasePixel(true);
+        gears.setPosition(gear);
+
+
+        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lLift.setPower(0.5);
+        rLift.setPower(0.5);
+
+
+
+    }
 
     public void resetEncoders()
     {

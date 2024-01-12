@@ -11,8 +11,34 @@ public class RecordedAutos {
     BackAutos back = new BackAutos();
     FrontAutos front = new FrontAutos();
 
-    public void run_test(robotHardware robot, boolean ifMirror)
+    public void run_test(robotHardware robot, boolean ifMirror, int zone)
     {
         front.left_front_1(robot, ifMirror);
+    }
+
+    public void run_front(robotHardware robot, boolean ifMirror, int zone)
+    {
+        int z = zone;
+
+        if (ifMirror && z == 0)
+        {
+            z = 2;
+        }
+        else if (ifMirror && z == 2)
+        {
+            z = 0;
+        }
+
+        switch(z) {
+            case 0:
+                front.left_front_0(robot, ifMirror);
+                break;
+            case 1:
+                front.left_front_1(robot, ifMirror);
+                break;
+            case 2:
+                front.left_front_2(robot, ifMirror);
+                break;
+        }
     }
 }
