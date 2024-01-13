@@ -18,7 +18,7 @@ public class AdeelAuto extends LinearOpMode {
     public void runOpMode(){
 //        LINE 2
         robot.initOpenCV(pipeline);
-//        robot.init();
+        robot.init();
         waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Position:", pipeline.getSpikePosition());

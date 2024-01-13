@@ -35,7 +35,7 @@ public class TeleOpPractice extends LinearOpMode {
 
     public String currentPos(Gamepad gamepad1)
     {
-        return "robot.setMovementPosition("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
+        return "robot.setMovementPositionAdvanced("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
                 ifDrop +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
     }
@@ -49,7 +49,6 @@ public class TeleOpPractice extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("status", "started");
-            telemetry.addData("encoder test pos", robot.bCent.getCurrentPosition());
             telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.addData("Dropper Servo Position", robot.dropper.getPosition());
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
