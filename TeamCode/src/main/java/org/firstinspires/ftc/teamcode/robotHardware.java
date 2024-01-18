@@ -159,10 +159,19 @@ public class robotHardware {
 
     public void setDrivePower(double v1, double v2, double v3, double v4) {
         // Output the values to the motor drives.
-        fLeft.setPower(v1/1.3);
-        fRight.setPower(v2/1.3);
-        bLeft.setPower(v3/1.3);
-        bRight.setPower(v4/1.3);
+        double n = 1.15;
+        fLeft.setPower(v1/n);
+        fRight.setPower(v2/n);
+        bLeft.setPower(v3/n);
+        bRight.setPower(v4/n);
+    }
+    public void setDrivePowerAuto(double v1, double v2, double v3, double v4) {
+        // Output the values to the motor drives.
+        double n = 1.3;
+        fLeft.setPower(v1/n);
+        fRight.setPower(v2/n);
+        bLeft.setPower(v3/n);
+        bRight.setPower(v4/n);
     }
 
     public void setDrivePosition(double fL, double fR, double bL, double bR)
@@ -192,25 +201,31 @@ public class robotHardware {
             setDrivePower(1, 1, 1, 1);
         }
     }
-    public void strafeRobot(double pos)
-    {
-        double fL = fLeft.getCurrentPosition() + pos;
-        double fR = fRight.getCurrentPosition() - pos;
-        double bL = bLeft.getCurrentPosition() - pos;
-        double bR = bRight.getCurrentPosition() + pos;
+    public void strafeDistance(double distance) {
 
-        setDrivePosition(fL, fR, bL, bR);
+        distance = distance * 45.28;
 
+        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
-            fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            setDrivePower(1, 1, 1, 1);
+        fLeft.setTargetPosition((int) distance);
+        fRight.setTargetPosition(-(int) distance);
+        bLeft.setTargetPosition(-(int) distance);
+        bRight.setTargetPosition((int) distance);
+
+        while ((fLeft.getTargetPosition() != fLeft.getCurrentPosition()) && (fRight.getTargetPosition() != fRight.getCurrentPosition()) && (bLeft.getTargetPosition() != bLeft.getCurrentPosition()) && (bRight.getTargetPosition() != bRight.getCurrentPosition())) {
+            setDrivePower(0.45, 0.45, 0.45, 0.45);
         }
     }
+
+
 
     public void moveRobot(double pos)
     {
@@ -440,7 +455,7 @@ public class robotHardware {
         lLift.setPower(0.5);
         rLift.setPower(0.5);
         double n = 0.6;
-        setDrivePower(n,n,n,n);
+        setDrivePowerAuto(n,n,n,n);
 
 
 
@@ -458,6 +473,7 @@ public class robotHardware {
 
 //        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
 
 
