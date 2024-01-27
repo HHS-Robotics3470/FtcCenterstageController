@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -37,7 +38,9 @@ public class robotHardware {
     public Servo claw;
     public Servo roller;
 
-    //Odometry Pods
+    //Sensors
+    public DistanceSensor leftSensor;
+    public DistanceSensor rightSensor;
 
 
     //Servo states
@@ -59,6 +62,7 @@ public class robotHardware {
     public final double clawClosed = 0.0475;
     public final double rollActive = 0.1;
     public final double rollGround = 0;
+    public final double rollUp = 0.02;
 
     public final double liftAbove = -1148;
 
@@ -87,7 +91,9 @@ public class robotHardware {
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
         roller = myOpMode.hardwareMap.get(Servo.class, "roller");
 
-        //Odometry Pods
+        //Distance sensors
+//        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
+//        rightSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance1");
 
 
         //Direction and encoders

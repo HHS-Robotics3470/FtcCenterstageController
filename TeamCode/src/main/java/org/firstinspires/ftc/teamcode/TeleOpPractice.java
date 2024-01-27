@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name="TestOpMode", group="blah")
 public class TeleOpPractice extends LinearOpMode {
 
@@ -49,6 +51,8 @@ public class TeleOpPractice extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("status", "started");
+//            telemetry.addData("Left Distance Sensor", robot.leftSensor.getDistance(DistanceUnit.INCH));
+//            telemetry.addData("Right Distance Sensor", robot.rightSensor.getDistance(DistanceUnit.INCH));
             telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.addData("Dropper Servo Position", robot.dropper.getPosition());
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
@@ -156,6 +160,10 @@ public class TeleOpPractice extends LinearOpMode {
                 bState = false;
             }
 
+            if (gamepad2.dpad_left)
+            {
+                Logging.log("//flag");
+            }
 
 
 

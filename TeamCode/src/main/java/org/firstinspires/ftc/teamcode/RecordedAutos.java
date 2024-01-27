@@ -13,8 +13,8 @@ public class RecordedAutos {
 
     public void run_test(robotHardware robot, boolean ifMirror, int zone)
     {
-        run_front(robot, ifMirror, zone);
-//        front.left_front_1(robot, ifMirror);
+        front.left_front_test(robot, ifMirror);
+
     }
 
     public void run_front(robotHardware robot, boolean ifMirror, int zone)
