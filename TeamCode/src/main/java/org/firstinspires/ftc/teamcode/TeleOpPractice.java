@@ -52,7 +52,7 @@ public class TeleOpPractice extends LinearOpMode {
 
             telemetry.addData("status", "started");
 //            telemetry.addData("Left Distance Sensor", robot.leftSensor.getDistance(DistanceUnit.INCH));
-//            telemetry.addData("Right Distance Sensor", robot.rightSensor.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Right Distance Sensor", robot.rightSensor.getDistance(DistanceUnit.INCH));
             telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.addData("Dropper Servo Position", robot.dropper.getPosition());
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());

@@ -12,7 +12,7 @@ public class LeftBack extends LinearOpMode {
     robotHardware robot = new robotHardware(this);
     RecordedAutos recorded = new RecordedAutos();
     SpikeDetectionPipeline pipeline = new SpikeDetectionPipeline();
-    boolean ifMirror = true;
+    boolean ifMirror = false;
 
 
     @Override
@@ -32,7 +32,7 @@ public class LeftBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            recorded.run_back(robot, false, zone);
+            recorded.run_test2(robot, ifMirror, zone);
 
             stop();
         }

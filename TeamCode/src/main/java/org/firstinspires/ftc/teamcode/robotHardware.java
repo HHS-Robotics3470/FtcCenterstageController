@@ -26,7 +26,6 @@ public class robotHardware {
     public DcMotor bRight;
     public DcMotor lLift;
     public DcMotor rLift;
-    //    public DcMotor roller;
     public DcMotor grabber;
 
     //Servos
@@ -64,6 +63,7 @@ public class robotHardware {
     public final double rollGround = 0;
     public final double rollUp = 0.02;
 
+    //Moter states
     public final double liftAbove = -1148;
 
     public void init(){
@@ -79,7 +79,6 @@ public class robotHardware {
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
-//        roller = myOpMode.hardwareMap.get(DcMotor.class, "roller");
         grabber = myOpMode.hardwareMap.get(DcMotor.class, "grabber");
 
         //Servos
@@ -93,7 +92,7 @@ public class robotHardware {
 
         //Distance sensors
 //        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
-//        rightSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance1");
+        rightSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance1");
 
 
         //Direction and encoders
@@ -102,12 +101,9 @@ public class robotHardware {
         bLeft.setDirection(DcMotor.Direction.FORWARD);
         bRight.setDirection(DcMotor.Direction.REVERSE);
 
-
-
         lLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-//        roller.setDirection(DcMotorSimple.Direction.REVERSE);
         grabber.setDirection(DcMotorSimple.Direction.FORWARD);
 
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -118,10 +114,7 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -131,7 +124,6 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-//        roller.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         grabber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         myOpMode.telemetry.addData( "status", "initialized");
@@ -173,7 +165,7 @@ public class robotHardware {
     }
     public void setDrivePowerAuto(double v1, double v2, double v3, double v4) {
         // Output the values to the motor drives.
-        double n = 1.3;
+        double n = 1.8;
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
         bLeft.setPower(v3/n);

@@ -12,14 +12,14 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
 
     int position = 0;
 
-    Point point_x_0 = new Point(100,50);
-    Point point_y_0 = new Point(200,150);
+    Point point_x_0 = new Point(200,50);
+    Point point_y_0 = new Point(300,150);
 
-    Point point_x_1 = new Point(625, 0);
-    Point point_y_1 = new Point(700, 100);
+    Point point_x_1 = new Point(675, 0);
+    Point point_y_1 = new Point(775, 100);
 
-    Point point_x_2 = new Point(1050, 50);
-    Point point_y_2 = new Point(1150, 150);
+    Point point_x_2 = new Point(1150, 50);
+    Point point_y_2 = new Point(1250, 150);
 
     public double redValueSubmat0;
     public double greenValueSubmat0;
@@ -57,20 +57,20 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
         greenValueSubmat2 = averageColorSubmat2.val[1];
         blueValueSubmat2 = averageColorSubmat2.val[2];
 
-        boolean isSubmat0Red = (redValueSubmat0 > greenValueSubmat0 && redValueSubmat0 > blueValueSubmat0);
-        boolean isSubmat0Blue = (blueValueSubmat0 > redValueSubmat0 && blueValueSubmat0 > greenValueSubmat0);
+        boolean isSubmat0Red = (redValueSubmat0 > greenValueSubmat0 + 45 && redValueSubmat0 > blueValueSubmat0);
+        boolean isSubmat0Blue = (blueValueSubmat0 > redValueSubmat0 && blueValueSubmat0 > greenValueSubmat0 + 45);
 
-        boolean isSubmat1Red = (redValueSubmat1 > greenValueSubmat1 && redValueSubmat1 > blueValueSubmat1);
-        boolean isSubmat1Blue = (blueValueSubmat1 > redValueSubmat1 && blueValueSubmat1 > greenValueSubmat1);
+        boolean isSubmat1Red = (redValueSubmat1 > greenValueSubmat1 + 45 && redValueSubmat1 > blueValueSubmat1);
+        boolean isSubmat1Blue = (blueValueSubmat1 > redValueSubmat1 && blueValueSubmat1 > greenValueSubmat1 + 45);
 
-        boolean isSubmat2Red = (redValueSubmat2 > greenValueSubmat2 && redValueSubmat2 > blueValueSubmat2);
-        boolean isSubmat2Blue = (blueValueSubmat2 > redValueSubmat2 && blueValueSubmat2 > greenValueSubmat2);
+        boolean isSubmat2Red = (redValueSubmat2 > greenValueSubmat2 + 45 && redValueSubmat2 > blueValueSubmat2);
+        boolean isSubmat2Blue = (blueValueSubmat2 > redValueSubmat2 && blueValueSubmat2 > greenValueSubmat2 + 45);
 
-        if ((isSubmat1Blue || isSubmat1Red) && (redValueSubmat1 > 200 || blueValueSubmat1 > 200)) {
+        if ((isSubmat1Blue || isSubmat1Red) || (redValueSubmat1 > 200 || blueValueSubmat1 > 200)) {
             position = 1;
-        } else if ((isSubmat0Blue || isSubmat0Red) && (redValueSubmat0 > 200 || blueValueSubmat0 > 200)){
+        } else if ((isSubmat0Blue || isSubmat0Red) || (redValueSubmat0 > 200 || blueValueSubmat0 > 200)){
             position = 0;
-        }else if ((isSubmat2Blue || isSubmat2Red) && (redValueSubmat2 > 200 || blueValueSubmat2 > 200)) {
+        }else if ((isSubmat2Blue || isSubmat2Red) || (redValueSubmat2 > 200 || blueValueSubmat2 > 200)) {
             position = 2;
         } else {
             position = 3;
