@@ -357,7 +357,7 @@ public class robotHardware {
         return !isActive;
     }
 
-    public void setMovementPosition(/*double leftY, double leftX, double rightX, */double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
+    public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
         //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+

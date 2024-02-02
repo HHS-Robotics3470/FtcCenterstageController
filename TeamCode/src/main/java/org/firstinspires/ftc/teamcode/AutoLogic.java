@@ -1,10 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.robotHardware;
-import org.firstinspires.ftc.teamcode.FullAutos;
-import org.firstinspires.ftc.teamcode.BackAutos;
-import org.firstinspires.ftc.teamcode.FrontAutos;
-
 public class RecordedAutos {
 
     FullAutos full = new FullAutos();
@@ -18,7 +13,7 @@ public class RecordedAutos {
 
     public void run_test2(robotHardware robot, boolean ifMirror, int zone)
     {
-        back.left_back_0(robot, ifMirror);
+        run_back(robot, ifMirror, zone);
     }
 
     public void run_front(robotHardware robot, boolean ifMirror, int zone)
