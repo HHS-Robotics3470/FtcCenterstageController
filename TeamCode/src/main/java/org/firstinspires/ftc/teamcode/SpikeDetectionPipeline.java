@@ -80,6 +80,7 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
         Imgproc.rectangle(input, point_x_0, point_y_0, new Scalar(0, 0, 0), 2);
         Imgproc.rectangle(input, point_x_2, point_y_2, new Scalar(0, 0, 0), 2);
 
+        submat0.release();
         submat1.release();
         submat2.release();
         return input;

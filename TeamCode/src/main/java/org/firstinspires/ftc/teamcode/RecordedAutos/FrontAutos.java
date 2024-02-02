@@ -1,9 +1,10 @@
-package RecordedAutos;
+package org.firstinspires.ftc.teamcode.RecordedAutos;
 
 import org.firstinspires.ftc.teamcode.robotHardware;
+import org.firstinspires.ftc.teamcode.RecordedAutos.RunAutos;
 
-public class FullAutos {
-    public void left_front_0(robotHardware robot, boolean ifMirror) {
+public class FrontAutos extends RunAutos{
+    public void run_0(robotHardware robot, boolean ifMirror) {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,0,0,0,0,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,0,0,0,0,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,0,0,0,0,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
@@ -1186,7 +1187,7 @@ public class FullAutos {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,656,2266,4047,-1024,2,4,false,0.675,0.6499999999999999,0.0,0.10000000000000003,ifMirror);
     }
 
-    public void left_front_1(robotHardware robot, boolean ifMirror) {
+    public void run_1(robotHardware robot, boolean ifMirror) {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,1,-17,-6,-13,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,1,-17,-6,-13,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,1,-17,-6,-13,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
@@ -2646,7 +2647,7 @@ public class FullAutos {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,583,2649,4227,-1004,7,5,false,0.675,0.6499999999999999,0.0,0.10000000000000003,ifMirror);
     }
 
-    public void left_front_2(robotHardware robot, boolean ifMirror) {
+    public void run_2(robotHardware robot, boolean ifMirror) {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,5,2,6,2,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,5,2,6,2,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,5,2,6,2,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);

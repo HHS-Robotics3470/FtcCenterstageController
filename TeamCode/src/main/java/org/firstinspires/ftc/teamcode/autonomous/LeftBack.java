@@ -3,14 +3,18 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.SpikeDetectionPipeline;
-import org.firstinspires.ftc.teamcode.RecordedAutos;
+import org.firstinspires.ftc.teamcode.AutoLogic;
 import org.firstinspires.ftc.teamcode.robotHardware;
+
+import org.firstinspires.ftc.teamcode.RecordedAutos.RunAutos;
+import org.firstinspires.ftc.teamcode.RecordedAutos.BackAutos;
+
 
 @Autonomous(name = "Left Back", group = "Autonomous")
 public class LeftBack extends LinearOpMode {
 
     robotHardware robot = new robotHardware(this);
-    RecordedAutos recorded = new RecordedAutos();
+    AutoLogic auto = new AutoLogic();
     SpikeDetectionPipeline pipeline = new SpikeDetectionPipeline();
     boolean ifMirror = false;
 
@@ -32,8 +36,7 @@ public class LeftBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            recorded.run_test2(robot, false, zone);
-
+            auto.run_autos(robot, false, zone, new BackAutos());
             stop();
         }
     }
