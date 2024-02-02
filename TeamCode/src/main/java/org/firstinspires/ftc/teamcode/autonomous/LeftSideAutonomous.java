@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AutoLogic;
 import org.firstinspires.ftc.teamcode.SpikeDetectionPipeline;
-import org.firstinspires.ftc.teamcode.RecordedAutos.RunAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.FrontAutos;
 import org.firstinspires.ftc.teamcode.robotHardware;
 
 @Autonomous(name = "Left Side Autonomous", group = "Autonomous")
@@ -35,7 +33,7 @@ public class LeftSideAutonomous extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            auto.run_autos(robot, false, zone, new FrontAutos());
+
 
             stop();
         }

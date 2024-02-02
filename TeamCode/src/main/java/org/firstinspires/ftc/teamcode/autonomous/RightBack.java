@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AutoLogic;
 import org.firstinspires.ftc.teamcode.SpikeDetectionPipeline;
-import org.firstinspires.ftc.teamcode.RecordedAutos.RunAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.RightBackAutos;
 import org.firstinspires.ftc.teamcode.robotHardware;
 
 @Autonomous(name = "Right Back", group = "Autonomous")
@@ -40,7 +38,7 @@ public class RightBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            auto.run_autos(robot, true, zone, new RightBackAutos());
+
 
             stop();
         }

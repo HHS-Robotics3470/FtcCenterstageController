@@ -1,11 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.RecordedAutos.RunAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.FrontAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.BackAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.RightBackAutos;
-import org.firstinspires.ftc.teamcode.RecordedAutos.RightFrontAutos;
-
 public class AutoLogic {
 
 
