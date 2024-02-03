@@ -33,7 +33,7 @@ public class LeftBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-
+            auto.left_back(robot, false, zone);
             stop();
         }
     }

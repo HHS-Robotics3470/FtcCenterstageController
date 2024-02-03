@@ -38,7 +38,7 @@ public class RightBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-
+            auto.right_back(robot, false, zone);
 
             stop();
         }
