@@ -59,7 +59,15 @@ public class robotHardware {
 
     public final double clawOpen = 0;
     public final double clawClosed = 0.0475;
+
+
     public final double rollActive = 0.1;
+    public final double rollStandard = 0.4;
+
+    public final double rollHigh = 0.7;
+
+
+
     public final double rollGround = 0;
     public final double rollUp = 0.02;
 
@@ -138,6 +146,8 @@ public class robotHardware {
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
         roller.setPosition(rollActive);
+        roller.setPosition(rollStandard);
+        roller.setPosition(rollHigh);
 
     }
 
@@ -356,6 +366,28 @@ public class robotHardware {
             s.setPosition(inactive);
         return !isActive;
     }
+
+
+public int CycleHeights(int pos)
+{
+    double[] doubleHeight = {rollGround, rollStandard, rollHigh};
+    int intHeight;
+    roller.setPosition(doubleHeight[pos]);
+
+    if (pos < doubleHeight.length)
+    {
+        intHeight = pos + 1;
+    }
+    else {
+        intHeight = 0;
+    }
+    return intHeight;
+}
+
+
+
+
+
 
     public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
