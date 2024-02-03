@@ -24,11 +24,8 @@ public class RightSideAutonomous extends LinearOpMode {
 
         waitForStart();
         if (opModeIsActive()) {
-            for (int i = 0; i < 2500; i++)
-            {
-                robot.setDrivePower(1, -1, -1, 1);
-            }
-            robot.resetEncoders();
+
+
             telemetry.addData("Status", "Tiiiiimothyyyy, I'm determining signal");
             telemetry.update();
             int zone = pipeline.getSpikePosition();

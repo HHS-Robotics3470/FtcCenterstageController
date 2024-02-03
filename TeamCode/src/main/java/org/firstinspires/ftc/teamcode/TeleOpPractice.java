@@ -24,6 +24,8 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean ifHooked = false;
     public boolean rstate = false;
     public boolean ifDrop = false;
+    public int heightState = 0;
+    public boolean dpadState = false;
     public int markerNum = 0;
 
 
@@ -37,7 +39,7 @@ public class TeleOpPractice extends LinearOpMode {
 
     public String currentPos(Gamepad gamepad1)
     {
-        return "robot.setMovementPositionAdvanced("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
+        return "robot.setMovementPosition("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
                 ifDrop +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
     }
@@ -102,6 +104,7 @@ public class TeleOpPractice extends LinearOpMode {
 
 
 
+
             if (gamepad1.a && !aState) {
 
 
@@ -120,7 +123,14 @@ public class TeleOpPractice extends LinearOpMode {
                 a2State = false;
             }
 
+            if (gamepad1.dpad_up && !dpadState) {
 
+
+                heightState = robot.CycleHeights(heightState);
+                dpadState = true;
+            } else if (!gamepad1.dpad_up && dpadState) {
+                dpadState = false;
+            }
 
 
             if (gamepad2.y && !y2State) {

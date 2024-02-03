@@ -49,8 +49,10 @@ public class robotHardware {
     public final double bombActive = 0.8;
     public final double bombInActive = 0.4;
 
-    public final double moveActive = 0;
-    public final double moveInActive = 0.675;
+    public final double oldmoveActive = 0;
+    public final double oldmoveInActive = 0.675;
+    public final double moveActive = 0.5;
+    public final double moveInActive = 0.605;
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
@@ -62,14 +64,9 @@ public class robotHardware {
 
 
     public final double rollActive = 0.1;
-    public final double rollStandard = 0.4;
-
-    public final double rollHigh = 0.7;
-
-
-
+    public final double rollHigh = 0.022;
+    public final double rollStandard = 0.013;
     public final double rollGround = 0;
-    public final double rollUp = 0.02;
 
     //Moter states
     public final double liftAbove = -1148;
@@ -146,8 +143,7 @@ public class robotHardware {
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
         roller.setPosition(rollActive);
-        roller.setPosition(rollStandard);
-        roller.setPosition(rollHigh);
+
 
     }
 
@@ -168,6 +164,7 @@ public class robotHardware {
     public void setDrivePower(double v1, double v2, double v3, double v4) {
         // Output the values to the motor drives.
         double n = 1.15;
+        //original n = 1.15
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
         bLeft.setPower(v3/n);
@@ -374,7 +371,7 @@ public int CycleHeights(int pos)
     int intHeight;
     roller.setPosition(doubleHeight[pos]);
 
-    if (pos < doubleHeight.length)
+    if (pos < doubleHeight.length-1)
     {
         intHeight = pos + 1;
     }
@@ -443,7 +440,7 @@ public int CycleHeights(int pos)
         lLift.setPower(0.5);
         rLift.setPower(0.5);
         double n = 0.6;
-        setDrivePower(n,n,n,n);
+        setDrivePowerAuto(n,n,n,n);
 
 
     }
@@ -466,7 +463,13 @@ public int CycleHeights(int pos)
 //        roller.setTargetPosition((int) roll);
         claw.setPosition(clawPos);
         roller.setPosition(roll);
-        mover.setPosition(move);
+//        mover.setPosition(move);
+        double newMove= move;
+        if (Math.abs(newMove - oldmoveActive)  < 0.00001)
+            mover.setPosition(moveActive);
+        else
+            mover.setPosition(moveInActive);
+
         if (drop)
             releasePixel(true);
         gears.setPosition(gear);
