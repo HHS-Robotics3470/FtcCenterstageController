@@ -105,16 +105,7 @@ public class AprilTagDrive extends LinearOpMode
                     // This tag is NOT in the library, so we don't have enough information to track to it.
                     telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
                 }
-                // Defines positions of telemetry factors and directions
-                telemetry.addData("x", desiredTag.ftcPose.x);
-                telemetry.addData( "y", desiredTag.ftcPose.y);
-                telemetry.addData( "z", desiredTag.ftcPose.z);
-                telemetry.addData( "roll", desiredTag.ftcPose.roll);
-                telemetry.addData( "pitch", desiredTag.ftcPose.pitch);
-                telemetry.addData("yaw", desiredTag.ftcPose.yaw);
-
             }
-
 
             // Tell the driver what we see, and what to do.
             if (targetFound) {
@@ -123,10 +114,6 @@ public class AprilTagDrive extends LinearOpMode
                 telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
                 telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
                 telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
-                //Calls to telemetry factors
-
-
-                //
             } else {
                 telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
@@ -143,7 +130,6 @@ public class AprilTagDrive extends LinearOpMode
                 drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-                // Stays negative for yaw
 
                 telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             } else {
@@ -151,7 +137,7 @@ public class AprilTagDrive extends LinearOpMode
                 // drive using manual POV Joystick mode.  Slow things down to make the robot more controlable.
                 drive  = -gamepad1.left_stick_y  / 2.0;  // Reduce drive rate to 50%.
                 strafe = -gamepad1.left_stick_x  / 2.0;  // Reduce strafe rate to 50%.
-                turn   = 0 * -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
+                turn   = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
                 telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             }
             telemetry.update();
@@ -159,7 +145,6 @@ public class AprilTagDrive extends LinearOpMode
             // Apply desired axes motions to the drivetrain.
             moveRobot(drive, strafe, turn);
             sleep(10);
-            //Wait
         }
     }
 
@@ -173,7 +158,7 @@ public class AprilTagDrive extends LinearOpMode
      * Positive Yaw is counter-clockwise
      */
     public void moveRobot(double x, double y, double yaw) {
-        // Calculate wheel powers. For yaw.
+        // Calculate wheel powers.
         double leftFrontPower    =  x -y -yaw;
         double rightFrontPower   =  x +y +yaw;
         double leftBackPower     =  x +y -yaw;
@@ -264,6 +249,5 @@ public class AprilTagDrive extends LinearOpMode
             gainControl.setGain(gain);
             sleep(20);
         }
-
     }
 }

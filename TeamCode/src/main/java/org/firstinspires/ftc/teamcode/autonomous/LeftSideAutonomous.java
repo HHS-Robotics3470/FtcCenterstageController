@@ -25,6 +25,10 @@ public class LeftSideAutonomous extends LinearOpMode {
         if (opModeIsActive()) {
             telemetry.addData("Status", "Tiiiiimothyyyy, I'm determining signal");
             telemetry.update();
+            for (int i = 0; i < 5; i++)
+            {
+                pipeline.getSpikePosition();
+            }
             int zone = pipeline.getSpikePosition();
 
 

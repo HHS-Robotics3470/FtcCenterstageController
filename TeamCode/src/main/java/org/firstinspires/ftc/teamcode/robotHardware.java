@@ -46,8 +46,8 @@ public class robotHardware {
     public final double dropActive = 0;
     public final double dropInActive = 0.85;
 
-    public final double bombActive = 0.8;
-    public final double bombInActive = 0.4;
+    public final double bombActive = 1;
+    public final double bombInActive = 0.6;
 
     public final double oldmoveActive = 0;
     public final double oldmoveInActive = 0.675;
@@ -264,15 +264,25 @@ public class robotHardware {
         myOpMode.telemetry.addData("Warning", "Do Not Start OpMode Until OpenCV Is Initialized");
         myOpMode.telemetry.update();
 //        Synchronous because we don't want user to start auto before its ready
-        camera.openCameraDevice();
-        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
 //        Start Signal Processing Pipeline
-        camera.setPipeline(pipeline);
+                camera.setPipeline(pipeline);
 
-        myOpMode.telemetry.addData("Initialized", "Hardware");
-        myOpMode.telemetry.addData("Initialized", "OpenCV");
-        myOpMode.telemetry.addData("Status", "You may now start the OpMode");
-        myOpMode.telemetry.update();
+                myOpMode.telemetry.addData("Initialized", "Hardware");
+                myOpMode.telemetry.addData("Initialized", "OpenCV");
+                myOpMode.telemetry.addData("Status", "You may now start the OpMode");
+                myOpMode.telemetry.update();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+
     }
 
     public void raiseLift() {

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-public class FrontAutos {
+public class FrontAutos extends RunAutos {
     public void run_0(robotHardware robot, boolean ifMirror) {
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,0,0,0,0,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
         robot.setMovementPositionAdvanced(0.0,0.0,0.0,0,0,0,0,0,0,false,0.675,0.65,0.0475,0.1,ifMirror);
