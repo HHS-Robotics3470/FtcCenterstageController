@@ -25,8 +25,8 @@ public class LeftBack extends LinearOpMode {
         if (opModeIsActive()) {
             telemetry.addData("Status", "Tiiiiimothyyyy, I'm determining signal");
             telemetry.update();
-            int zone = pipeline.getSpikePosition();
-
+            int zone =
+            pipeline.getSpikePosition();
 
             telemetry.addData("Status", "Yo Timbits, target zone determined");
             telemetry.addData("Status", "Hey Timmy!!! I'm parking in the "+zone);

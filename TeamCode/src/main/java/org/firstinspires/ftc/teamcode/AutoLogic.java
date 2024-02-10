@@ -5,12 +5,13 @@ import org.firstinspires.ftc.teamcode.RightBackAutos;
 import org.firstinspires.ftc.teamcode.FrontAutos;
 import org.firstinspires.ftc.teamcode.RightFrontAutos;
 import org.firstinspires.ftc.teamcode.RunAutos;
-
+import org.firstinspires.ftc.teamcode.robotHardware;
 public class AutoLogic {
 
 
     public void run_test(robotHardware robot, boolean ifMirror, int zone) {
-
+        robot.strafeDistance(1000);
+        robot.moveRobot(1000);
     }
 
     public void left_front(robotHardware robot, boolean ifMirror, int zone) {
