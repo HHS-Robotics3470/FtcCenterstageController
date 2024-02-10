@@ -18,7 +18,7 @@ public class robotHardware {
     public robotHardware(LinearOpMode opMode){
         myOpMode = opMode;
     }
-
+    public boolean stop = false;
     //Moters
     public DcMotor fLeft;
     public DcMotor fRight;
@@ -51,8 +51,10 @@ public class robotHardware {
 
     public final double oldmoveActive = 0;
     public final double oldmoveInActive = 0.675;
+    public final double moveActive2 = 0.5;
+    public final double moveInActive2 = 0.605;
     public final double moveActive = 0.5;
-    public final double moveInActive = 0.605;
+    public final double moveInActive = 0.607;
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
@@ -405,6 +407,8 @@ public int CycleHeights(int pos)
 //        double frRight = y - x - rx  ;
 //        double baLeft = y - x + rx;
 //        double baRight = y + x - rx;
+        if (stop)
+            return;
 
         if(!mirror) {
             setDrivePosition(fL, fR, bL, bR);
@@ -421,7 +425,11 @@ public int CycleHeights(int pos)
 //        roller.setTargetPosition((int) roll);
         claw.setPosition(clawPos);
         roller.setPosition(roll);
-        mover.setPosition(move);
+        double newMove= move;
+        if (Math.abs(newMove - moveActive2)  < 0.00001)
+            mover.setPosition(moveActive);
+        else
+            mover.setPosition(moveInActive);
         if (drop)
             releasePixel(true);
         gears.setPosition(gear);
@@ -447,6 +455,8 @@ public int CycleHeights(int pos)
 
     public void setMovementPositionAdvanced(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
+        if (stop)
+            return;
 
         if(!mirror) {
             setDrivePosition(fL, fR, bL, bR);

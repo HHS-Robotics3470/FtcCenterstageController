@@ -20,6 +20,7 @@ public class RightBack extends LinearOpMode {
     public void runOpMode() {
         robot.initOpenCV(pipeline);
         robot.init();
+        AutoLogic auto = new AutoLogic();
 
         waitForStart();
         if (opModeIsActive()) {
@@ -35,7 +36,9 @@ public class RightBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            auto.right_back(robot, false, zone);
+//            auto.right_back(robot, false, zone);
+            auto.right_pixel(robot, true, zone);
+
 
             stop();
         }

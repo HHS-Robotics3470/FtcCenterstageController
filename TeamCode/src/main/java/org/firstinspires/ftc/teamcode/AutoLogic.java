@@ -67,7 +67,7 @@ public class AutoLogic {
 
     public void right_front(robotHardware robot, boolean ifMirror, int zone) {
         int z = zone;
-        RightFrontAutos front = new RightFrontAutos();
+        FrontAutos front = new FrontAutos();
 
         if (ifMirror && z == 0) {
             z = 2;
@@ -77,16 +77,16 @@ public class AutoLogic {
 
         switch (z) {
             case 0:
-                front.run_0(robot, false);
+                front.run_0(robot, true);
                 break;
             case 1:
-                front.run_1(robot, false);
+                front.run_1(robot, true);
                 break;
             case 2:
-                front.run_2(robot, false);
+                front.run_2(robot, true);
                 break;
             case 3:
-                front.run_0(robot, false);
+                front.run_0(robot, true);
                 break;
         }
     }
