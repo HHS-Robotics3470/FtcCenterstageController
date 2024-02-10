@@ -234,23 +234,27 @@ public class robotHardware {
 
 
 
-    public void moveRobot(double pos)
+    public void moveRobot(double distance)
     {
-        double fL = fLeft.getCurrentPosition() + pos;
-        double fR = fRight.getCurrentPosition() + pos;
-        double bL = bLeft.getCurrentPosition() - pos;
-        double bR = bRight.getCurrentPosition() - pos;
+        distance = distance * 45.28;
 
-        setDrivePosition(fL, fR, bL, bR);
+        fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        fLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        fRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        fLeft.setTargetPosition((int) distance);
+        fRight.setTargetPosition((int) distance);
+        bLeft.setTargetPosition((int) distance);
+        bRight.setTargetPosition((int) distance);
 
-        while (fLeft.getCurrentPosition() != fL || fRight.getCurrentPosition() != fR || bLeft.getCurrentPosition() != bL || bRight.getCurrentPosition() != bR) {
-            fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            setDrivePower(1, 1, 1, 1);
+        while ((fLeft.getTargetPosition() != fLeft.getCurrentPosition()) && (fRight.getTargetPosition() != fRight.getCurrentPosition()) && (bLeft.getTargetPosition() != bLeft.getCurrentPosition()) && (bRight.getTargetPosition() != bRight.getCurrentPosition())) {
+            setDrivePower(0.45, 0.45, 0.45, 0.45);
         }
     }
 

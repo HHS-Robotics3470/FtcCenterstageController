@@ -37,7 +37,10 @@ public class RightBack extends LinearOpMode {
             telemetry.update();
 //                MEDIUM JUNCTION STACK
 //            auto.right_back(robot, false, zone);
-            auto.right_pixel(robot, true, zone);
+            robot.strafeDistance(10);
+            robot.moveRobot(10);
+            robot.strafeDistance(-10);
+            robot.moveRobot(-10);
 
 
             stop();
