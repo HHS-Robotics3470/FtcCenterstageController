@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.AutoLogic;
 import org.firstinspires.ftc.teamcode.SpikeDetectionPipeline;
 import org.firstinspires.ftc.teamcode.robotHardware;
+import org.firstinspires.ftc.teamcode.recorded.BackAutos;
+
 
 @Autonomous(name = "Right Back", group = "Autonomous")
 public class RightBack extends LinearOpMode {
@@ -37,10 +39,7 @@ public class RightBack extends LinearOpMode {
             telemetry.update();
 //                MEDIUM JUNCTION STACK
 //            auto.right_back(robot, false, zone);
-            robot.strafeDistance(10);
-            robot.moveRobot(10);
-            robot.strafeDistance(-10);
-            robot.moveRobot(-10);
+            auto.run_auto(robot, true, zone, new BackAutos());
 
 
             stop();

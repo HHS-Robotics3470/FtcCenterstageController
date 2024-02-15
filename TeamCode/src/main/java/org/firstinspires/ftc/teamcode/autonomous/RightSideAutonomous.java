@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.AutoLogic;
 import org.firstinspires.ftc.teamcode.SpikeDetectionPipeline;
 import org.firstinspires.ftc.teamcode.robotHardware;
+import org.firstinspires.ftc.teamcode.recorded.FrontAutos;
 
 
 @Autonomous(name = "Right Side Autonomous", group = "Autonomous")
@@ -35,7 +36,7 @@ public class RightSideAutonomous extends LinearOpMode {
             telemetry.update();
 //                MEDIUM JUNCTION STACK
 
-            auto.right_front(robot, true, zone);
+            auto.run_auto(robot, true, zone, new FrontAutos());
             stop();
         }
     }

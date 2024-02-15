@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.recorded;
+
+import org.firstinspires.ftc.teamcode.recorded.RunAutos;
+import org.firstinspires.ftc.teamcode.robotHardware;
 
 public class FrontAutos extends RunAutos {
     public void run_0(robotHardware robot, boolean ifMirror) {

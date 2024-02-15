@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -26,16 +25,16 @@ public class robotHardware {
     public DcMotor bRight;
     public DcMotor lLift;
     public DcMotor rLift;
-    public DcMotor grabber;
+    public DcMotor winch;
 
     //Servos
     public Servo dropper;
     public Servo bomber;//remember to change the name for the love of god
-    public Servo mover;
+    public Servo flipper;
     public Servo gears;
     public Servo hook;
     public Servo claw;
-    public Servo roller;
+    public Servo arm;
 
     //Sensors
     public DistanceSensor leftSensor;
@@ -86,16 +85,16 @@ public class robotHardware {
         lLift = myOpMode.hardwareMap.get(DcMotor.class, "lLift");
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
-        grabber = myOpMode.hardwareMap.get(DcMotor.class, "grabber");
+        winch = myOpMode.hardwareMap.get(DcMotor.class, "grabber");
 
         //Servos
         dropper = myOpMode.hardwareMap.get(Servo.class,"dropper");
         bomber = myOpMode.hardwareMap.get(Servo.class, "bomber");
-        mover = myOpMode.hardwareMap.get(Servo.class, "mover");
+        flipper = myOpMode.hardwareMap.get(Servo.class, "mover");
         gears = myOpMode.hardwareMap.get(Servo.class, "gears");
         hook = myOpMode.hardwareMap.get(Servo.class, "hook");
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
-        roller = myOpMode.hardwareMap.get(Servo.class, "roller");
+        arm = myOpMode.hardwareMap.get(Servo.class, "roller");
 
         //Distance sensors
 //        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
@@ -111,7 +110,7 @@ public class robotHardware {
         lLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        grabber.setDirection(DcMotorSimple.Direction.FORWARD);
+        winch.setDirection(DcMotorSimple.Direction.FORWARD);
 
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -121,7 +120,7 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -131,7 +130,7 @@ public class robotHardware {
         lLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        grabber.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         myOpMode.telemetry.addData( "status", "initialized");
         myOpMode.telemetry.update();
@@ -140,15 +139,16 @@ public class robotHardware {
         //Servo initial positions
         dropper.setPosition(dropInActive);
         bomber.setPosition(bombInActive);
-        mover.setPosition(moveInActive);
+        flipper.setPosition(moveInActive);
         gears.setPosition(gearInActive);
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
-        roller.setPosition(rollActive);
+        arm.setPosition(rollActive);
 
 
     }
 
+    //Mechnam code for robot
     public void driveRobot(Gamepad gamepad1){
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
@@ -163,17 +163,17 @@ public class robotHardware {
 
     }
 
+    //Sets driving speed
     public void setDrivePower(double v1, double v2, double v3, double v4) {
-        // Output the values to the motor drives.
         double n = 1.15;
-        //original n = 1.15
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
         bLeft.setPower(v3/n);
         bRight.setPower(v4/n);
     }
+
+    //Sets auto speed
     public void setDrivePowerAuto(double v1, double v2, double v3, double v4) {
-        // Output the values to the motor drives.
         double n = 1.8;
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
@@ -181,6 +181,7 @@ public class robotHardware {
         bRight.setPower(v4/n);
     }
 
+    //Sets encoder positions for wheels
     public void setDrivePosition(double fL, double fR, double bL, double bR)
     {
         fLeft.setTargetPosition((int) fL);
@@ -208,6 +209,8 @@ public class robotHardware {
             setDrivePower(1, 1, 1, 1);
         }
     }
+
+    //strafes robot positively to the left by certain inches
     public void strafeDistance(double distance) {
 
         distance = distance * 45.28;
@@ -228,12 +231,12 @@ public class robotHardware {
         bRight.setTargetPosition((int) distance);
 
         while ((fLeft.getTargetPosition() != fLeft.getCurrentPosition()) && (fRight.getTargetPosition() != fRight.getCurrentPosition()) && (bLeft.getTargetPosition() != bLeft.getCurrentPosition()) && (bRight.getTargetPosition() != bRight.getCurrentPosition())) {
-            setDrivePower(0.45, 0.45, 0.45, 0.45);
+            double n = 0.6;
+            setDrivePowerAuto(n,n,n,n);
         }
     }
 
-
-
+    //drives robot positively forward by certain inches
     public void moveRobot(double distance)
     {
         distance = distance * 45.28;
@@ -254,11 +257,12 @@ public class robotHardware {
         bRight.setTargetPosition((int) distance);
 
         while ((fLeft.getTargetPosition() != fLeft.getCurrentPosition()) && (fRight.getTargetPosition() != fRight.getCurrentPosition()) && (bLeft.getTargetPosition() != bLeft.getCurrentPosition()) && (bRight.getTargetPosition() != bRight.getCurrentPosition())) {
-            setDrivePower(0.45, 0.45, 0.45, 0.45);
+            double n = 0.6;
+            setDrivePowerAuto(n,n,n,n);
         }
     }
 
-
+    //initalizes camera detection - execute before getting spike position
     public void initOpenCV(SpikeDetectionPipeline pipeline){
         WebcamName webcamName = myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
@@ -267,12 +271,12 @@ public class robotHardware {
         myOpMode.telemetry.addData("Initializing", "OpenCV");
         myOpMode.telemetry.addData("Warning", "Do Not Start OpMode Until OpenCV Is Initialized");
         myOpMode.telemetry.update();
-//        Synchronous because we don't want user to start auto before its ready
+
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
                 camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-//        Start Signal Processing Pipeline
+
                 camera.setPipeline(pipeline);
 
                 myOpMode.telemetry.addData("Initialized", "Hardware");
@@ -316,20 +320,21 @@ public class robotHardware {
         lLift.setTargetPosition(lLift.getCurrentPosition());
     }
 
-
-    public void grabberMove(boolean hbs) {
+    //retracts winch, lifting robot
+    public void winchUp(boolean hbs) {
         if (hbs) {
-            grabber.setPower(5.0);
+            winch.setPower(5.0);
         } else {
-            grabber.setPower(0);
+            winch.setPower(0);
         }
     }
 
-    public void grabberMoveDown(boolean hbs) {
+    //unretracts winch
+    public void winchDown(boolean hbs) {
         if (hbs) {
-            grabber.setPower(-5.0);
+            winch.setPower(-5.0);
         } else {
-            grabber.setPower(0);
+            winch.setPower(0);
         }
     }
 
@@ -357,7 +362,7 @@ public class robotHardware {
 
     public void lift_pixel(boolean ifLifted){
         if (rLift.getCurrentPosition() < liftAbove || lLift.getCurrentPosition() < liftAbove) {
-            SwitchServo(mover, moveActive, moveInActive, ifLifted);
+            SwitchServo(flipper, moveActive, moveInActive, ifLifted);
             SwitchServo(gears, gearActive, gearInActive, ifLifted);
         }
     }
@@ -366,9 +371,9 @@ public class robotHardware {
     {
         return SwitchServo(claw, clawOpen, clawClosed, ifOpen);
     }
-    public boolean useRoller(boolean ifGround)
+    public boolean useArm(boolean ifGround)
     {
-        return SwitchServo(roller, rollActive, rollGround, ifGround);
+        return SwitchServo(arm, rollActive, rollGround, ifGround);
     }
 
     public boolean SwitchServo(Servo s, double active, double inactive, boolean isActive)
@@ -381,21 +386,21 @@ public class robotHardware {
     }
 
 
-public int CycleHeights(int pos)
-{
-    double[] doubleHeight = {rollGround, rollStandard, rollHigh};
-    int intHeight;
-    roller.setPosition(doubleHeight[pos]);
-
-    if (pos < doubleHeight.length-1)
+    public int CycleHeights(int pos)
     {
-        intHeight = pos + 1;
+        double[] doubleHeight = {rollGround, rollStandard, rollHigh};
+        int intHeight;
+        arm.setPosition(doubleHeight[pos]);
+
+        if (pos < doubleHeight.length-1)
+        {
+            intHeight = pos + 1;
+        }
+        else {
+            intHeight = 0;
+        }
+        return intHeight;
     }
-    else {
-        intHeight = 0;
-    }
-    return intHeight;
-}
 
 
 
@@ -438,12 +443,12 @@ public int CycleHeights(int pos)
 
 //        roller.setTargetPosition((int) roll);
         claw.setPosition(clawPos);
-        roller.setPosition(roll);
+        arm.setPosition(roll);
         double newMove= move;
         if (Math.abs(newMove - moveActive2)  < 0.00001)
-            mover.setPosition(moveActive);
+            flipper.setPosition(moveActive);
         else
-            mover.setPosition(moveInActive);
+            flipper.setPosition(moveInActive);
         if (drop)
             releasePixel(true);
         gears.setPosition(gear);
@@ -486,13 +491,13 @@ public int CycleHeights(int pos)
 
 //        roller.setTargetPosition((int) roll);
         claw.setPosition(clawPos);
-        roller.setPosition(roll);
+        arm.setPosition(roll);
 //        mover.setPosition(move);
         double newMove= move;
-        if (Math.abs(newMove - oldmoveActive)  < 0.00001)
-            mover.setPosition(moveActive);
+        if (Math.abs(newMove - 0)  < 0.00001)
+            flipper.setPosition(moveActive);
         else
-            mover.setPosition(moveInActive);
+            flipper.setPosition(moveInActive);
 
         if (drop)
             releasePixel(true);
@@ -529,7 +534,7 @@ public int CycleHeights(int pos)
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 //        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 

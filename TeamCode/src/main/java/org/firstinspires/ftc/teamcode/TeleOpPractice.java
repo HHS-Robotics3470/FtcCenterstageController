@@ -41,7 +41,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifDrop +","+robot.mover.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.roller.getPosition()+",ifMirror);";
+                ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -58,10 +58,10 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("Gears Servo Position", robot.gears.getPosition());
             telemetry.addData("Dropper Servo Position", robot.dropper.getPosition());
             telemetry.addData("Bomber Servo Position", robot.bomber.getPosition());
-            telemetry.addData("Mover Servo Position", robot.mover.getPosition());
+            telemetry.addData("Mover Servo Position", robot.flipper.getPosition());
             telemetry.addData("Hook Servo Position", robot.hook.getPosition());
             telemetry.addData("Claw Servo Position", robot.claw.getPosition());
-            telemetry.addData("Roller Servo Position", robot.roller.getPosition());
+            telemetry.addData("Roller Servo Position", robot.arm.getPosition());
             telemetry.addData("lift", robot.rLift.getCurrentPosition());
             telemetry.update();
 
@@ -90,13 +90,13 @@ public class TeleOpPractice extends LinearOpMode {
 
             //call to roller function if button pressed
             if (gamepad2.dpad_up){
-                robot.grabberMove(gamepad2.dpad_up);
+                robot.winchUp(gamepad2.dpad_up);
             }
             else if(gamepad2.dpad_down){
-                robot.grabberMoveDown(gamepad2.dpad_down);
+                robot.winchDown(gamepad2.dpad_down);
             }
             else if(!gamepad2.dpad_up){
-                robot.grabberMove(gamepad2.dpad_up);
+                robot.winchUp(gamepad2.dpad_up);
             }
 
 
@@ -116,7 +116,7 @@ public class TeleOpPractice extends LinearOpMode {
 
             if (gamepad2.a && !a2State) {
 
-                robot.useRoller(ifRolled);
+                robot.useArm(ifRolled);
                 ifRolled = !ifRolled;
                 a2State = true;
             } else if (!gamepad2.a && a2State) {
