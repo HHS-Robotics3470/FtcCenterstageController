@@ -14,6 +14,9 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+
+
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +48,8 @@ public class AprilTagDrive extends LinearOpMode
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
+
+    private robotHardware robot = new robotHardware(this);
 
     @Override public void runOpMode()
     {
