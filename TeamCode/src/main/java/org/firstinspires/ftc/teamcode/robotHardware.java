@@ -35,6 +35,7 @@ public class robotHardware {
     public Servo hook;
     public Servo claw;
     public Servo arm;
+    public Servo wrist;
 
     //Sensors
     public DistanceSensor leftSensor;
@@ -63,12 +64,12 @@ public class robotHardware {
     public final double clawOpen = 0;
     public final double clawClosed = 0.0475;
 
+    public final double[] wristPos = {0.11, 0.049, 0.025};
 
     public final double rollActive = 0.1;
-    public final double rollHigh = 0.022;
-    public final double rollStandard = 0.013;
-    public final double rollGround = 0;
 
+    public final double rollGround = 0;
+    public final double[] rollPos = {rollGround, 0.06, 0.09};
     //Moter states
     public final double liftAbove = -1148;
 
@@ -95,6 +96,7 @@ public class robotHardware {
         hook = myOpMode.hardwareMap.get(Servo.class, "hook");
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
         arm = myOpMode.hardwareMap.get(Servo.class, "roller");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
         //Distance sensors
 //        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
@@ -144,6 +146,7 @@ public class robotHardware {
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
         arm.setPosition(rollActive);
+        wrist.setPosition(wristPos[0]);
 
 
     }
@@ -373,6 +376,7 @@ public class robotHardware {
     }
     public boolean useArm(boolean ifGround)
     {
+        wrist.setPosition(wristPos[0]);
         return SwitchServo(arm, rollActive, rollGround, ifGround);
     }
 
@@ -386,20 +390,28 @@ public class robotHardware {
     }
 
 
-    public int CycleHeights(int pos)
+    public int UpHeights(int pos)
     {
-        double[] doubleHeight = {rollGround, rollStandard, rollHigh};
-        int intHeight;
-        arm.setPosition(doubleHeight[pos]);
+        int height;
+        if (pos >= wristPos.length-1)
+            height = wristPos.length-1;
+        else
+            height = pos + 1;
+        arm.setPosition(rollPos[height]);
+        wrist.setPosition(wristPos[height]);
+        return height;
+    }
 
-        if (pos < doubleHeight.length-1)
-        {
-            intHeight = pos + 1;
-        }
-        else {
-            intHeight = 0;
-        }
-        return intHeight;
+    public int DownHeights(int pos)
+    {
+        int height;
+        if (pos <= 0)
+            height = 0;
+        else
+            height = pos - 1;
+        arm.setPosition(rollPos[height]);
+        wrist.setPosition(wristPos[height]);
+        return height;
     }
 
 

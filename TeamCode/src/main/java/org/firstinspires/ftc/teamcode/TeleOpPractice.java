@@ -26,6 +26,7 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean ifDrop = false;
     public int heightState = 0;
     public boolean dpadState = false;
+    public boolean dpadState2b = false;
     public int markerNum = 0;
 
 
@@ -62,7 +63,10 @@ public class TeleOpPractice extends LinearOpMode {
             telemetry.addData("Hook Servo Position", robot.hook.getPosition());
             telemetry.addData("Claw Servo Position", robot.claw.getPosition());
             telemetry.addData("Roller Servo Position", robot.arm.getPosition());
-            telemetry.addData("lift", robot.rLift.getCurrentPosition());
+            telemetry.addData("Wrist Servo Position", robot.wrist.getPosition());
+            telemetry.addData("llift", robot.lLift.getCurrentPosition());
+            telemetry.addData("llift", robot.lLift.getCurrentPosition());
+            telemetry.addData("height", heightState);
             telemetry.update();
 
 
@@ -126,10 +130,19 @@ public class TeleOpPractice extends LinearOpMode {
             if (gamepad1.dpad_up && !dpadState) {
 
 
-                heightState = robot.CycleHeights(heightState);
+                heightState = robot.UpHeights(heightState);
                 dpadState = true;
             } else if (!gamepad1.dpad_up && dpadState) {
                 dpadState = false;
+            }
+
+            if (gamepad1.dpad_down && !dpadState2b) {
+
+
+                heightState = robot.DownHeights(heightState);
+                dpadState2b = true;
+            } else if (!gamepad1.dpad_down && dpadState2b) {
+                dpadState2b = false;
             }
 
 
