@@ -65,11 +65,12 @@ public class robotHardware {
     public final double clawClosed = 0.0475;
 
     public final double[] wristPos = {0.1, 0.051, 0.028};
+    public final double wristPosLvlOne = 0.06;
 
     public final double rollActive = 0.11;
 
     public final double rollGround = 0;
-    public final double[] rollPos = {rollGround, 0.055, 0.083};
+    public final double[] rollPos = {rollGround, 0.055, 0.083, 0.09};
     //Moter states
     public final double liftAbove = -1148;
 
@@ -399,6 +400,14 @@ public class robotHardware {
             height = pos + 1;
         arm.setPosition(rollPos[height]);
         wrist.setPosition(wristPos[height]);
+        return height;
+    }
+
+    public int FinalHeight()
+    {
+        int height;
+        height = 3;
+        wrist.setPosition(wristPosLvlOne);
         return height;
     }
 

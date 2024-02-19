@@ -132,6 +132,14 @@ public class TeleOpPractice extends LinearOpMode {
                 dpadState = false;
             }
 
+            if (gamepad1.dpad_left && !dpadState){
+                heightState = robot.FinalHeight();
+                dpadState = true;
+ else          if (!gamepad1.dpad_left && dpadState) {
+                    dpadState = false;
+                }
+            }
+
             if (gamepad1.dpad_down && !dpadState2b) {
 
 
