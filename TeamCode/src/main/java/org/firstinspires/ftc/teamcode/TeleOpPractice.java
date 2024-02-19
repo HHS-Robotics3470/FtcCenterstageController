@@ -99,13 +99,9 @@ public class TeleOpPractice extends LinearOpMode {
             else if(gamepad2.dpad_down){
                 robot.winchDown(gamepad2.dpad_down);
             }
-            else if(!gamepad2.dpad_up){
+            else if(!gamepad2.dpad_up) {
                 robot.winchUp(gamepad2.dpad_up);
             }
-
-
-
-
 
 
 

@@ -64,12 +64,12 @@ public class robotHardware {
     public final double clawOpen = 0;
     public final double clawClosed = 0.0475;
 
-    public final double[] wristPos = {0.11, 0.049, 0.025};
+    public final double[] wristPos = {0.1, 0.051, 0.028};
 
-    public final double rollActive = 0.1;
+    public final double rollActive = 0.11;
 
     public final double rollGround = 0;
-    public final double[] rollPos = {rollGround, 0.06, 0.09};
+    public final double[] rollPos = {rollGround, 0.055, 0.083};
     //Moter states
     public final double liftAbove = -1148;
 
