@@ -352,6 +352,8 @@ public class robotHardware {
     }
 
     public void releasePixel (boolean open) {
+        double p = gears.getPosition();
+        gears.setPosition(gearActive);
         dropper.setPosition(dropActive);
         try {
             Thread.sleep(200);
@@ -359,6 +361,7 @@ public class robotHardware {
             ex.printStackTrace();
         }
         dropper.setPosition(dropInActive);
+        gears.setPosition(p);
 
 
     }
@@ -419,7 +422,7 @@ public class robotHardware {
 
 
 
-    public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
+    public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, double wr, boolean mirror)
     {
         //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
@@ -456,6 +459,7 @@ public class robotHardware {
 //        roller.setTargetPosition((int) roll);
         claw.setPosition(clawPos);
         arm.setPosition(roll);
+        wrist.setPosition(wr);
         double newMove= move;
         if (Math.abs(newMove - moveActive2)  < 0.00001)
             flipper.setPosition(moveActive);

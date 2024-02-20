@@ -42,7 +42,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+",ifMirror);";
+                ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+","+robot.wrist.getPosition()+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -118,6 +118,7 @@ public class TeleOpPractice extends LinearOpMode {
 
                 robot.useArm(ifRolled);
                 ifRolled = !ifRolled;
+                heightState = 0;
                 a2State = true;
             } else if (!gamepad2.a && a2State) {
                 a2State = false;
