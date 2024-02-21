@@ -18,6 +18,7 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean bState = false;
     public boolean aState = false;
     public boolean a2State = false;
+    public boolean padLeft = false;
     public boolean ifOpen = false;
     public boolean ifClawOpened = false;
     public boolean ifRolled = false;
@@ -28,6 +29,8 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean dpadState = false;
     public boolean dpadState2b = false;
     public int markerNum = 0;
+    public boolean x1State = false;
+
 
 
     public TeleOpPractice() throws Exception
@@ -133,14 +136,6 @@ public class TeleOpPractice extends LinearOpMode {
                 dpadState = false;
             }
 
-            if (gamepad1.dpad_left && !dpadState){
-                heightState = robot.FinalHeight();
-                dpadState = true;
- else          if (!gamepad1.dpad_left && dpadState) {
-                    dpadState = false;
-                }
-            }
-
             if (gamepad1.dpad_down && !dpadState2b) {
 
 
@@ -149,6 +144,14 @@ public class TeleOpPractice extends LinearOpMode {
             } else if (!gamepad1.dpad_down && dpadState2b) {
                 dpadState2b = false;
             }
+
+            if (gamepad2.dpad_left && !padLeft) {
+                robot.arm.setPosition(robot.rollDriving);
+                padLeft = true;
+        } else if (!gamepad2.dpad_left && padLeft) {
+                padLeft = false;
+            }
+
 
 
             if (gamepad2.y && !y2State) {
@@ -176,6 +179,13 @@ public class TeleOpPractice extends LinearOpMode {
                 xState = true;
             } else if (!gamepad2.x && xState) {
                 xState = false;
+            }
+
+            if (gamepad1.x && !x1State) {
+                robot.groundDrop();
+                x1State = true;
+            } else if (!gamepad1.x && x1State) {
+                x1State = false;
             }
 
 

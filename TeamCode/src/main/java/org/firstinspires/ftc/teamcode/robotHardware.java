@@ -49,12 +49,11 @@ public class robotHardware {
     public final double bombActive = 1;
     public final double bombInActive = 0.6;
 
-    public final double oldmoveActive = 0;
-    public final double oldmoveInActive = 0.675;
+
     public final double moveActive2 = 0.5;
-    public final double moveInActive2 = 0.605;
     public final double moveActive = 0.5;
     public final double moveInActive = 0.607;
+    public final double moveHover = 0.58;
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
@@ -64,13 +63,16 @@ public class robotHardware {
     public final double clawOpen = 0;
     public final double clawClosed = 0.0475;
 
-    public final double[] wristPos = {0.1, 0.051, 0.028};
+    public final double[] wristPos = {0.1, 0.051, 0.028, 0.05};
     public final double wristPosLvlOne = 0.06;
+    public final double armPosLvlOne = 0.09;
 
     public final double rollActive = 0.11;
-
     public final double rollGround = 0;
-    public final double[] rollPos = {rollGround, 0.055, 0.083, 0.09};
+    public final double[] rollPos = {rollGround, 0.055, 0.0825, 0.1};
+    public final double rollDriving = 0.105;
+
+
     //Moter states
     public final double liftAbove = -1148;
 
@@ -157,19 +159,20 @@ public class robotHardware {
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
         double rx = -gamepad1.right_stick_x;
+        double slow = gamepad1.right_trigger +1;
 
         double frLeft = y + x + rx;
         double frRight = y - x - rx  ;
         double baLeft = y - x + rx;
         double baRight = y + x - rx;
 
-        setDrivePower(frLeft, frRight, baLeft, baRight);
+        setDrivePower(frLeft, frRight, baLeft, baRight, slow);
 
     }
 
     //Sets driving speed
-    public void setDrivePower(double v1, double v2, double v3, double v4) {
-        double n = 1.15;
+    public void setDrivePower(double v1, double v2, double v3, double v4, double s) {
+        double n = 1.15 * s;
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
         bLeft.setPower(v3/n);
@@ -210,7 +213,7 @@ public class robotHardware {
             fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            setDrivePower(1, 1, 1, 1);
+            setDrivePower(1, 1, 1, 1, 1);
         }
     }
 
@@ -353,8 +356,6 @@ public class robotHardware {
     }
 
     public void releasePixel (boolean open) {
-        double p = gears.getPosition();
-        gears.setPosition(gearActive);
         dropper.setPosition(dropActive);
         try {
             Thread.sleep(200);
@@ -362,9 +363,6 @@ public class robotHardware {
             ex.printStackTrace();
         }
         dropper.setPosition(dropInActive);
-        gears.setPosition(p);
-
-
     }
 
     public void lift_pixel(boolean ifLifted){
@@ -406,13 +404,6 @@ public class robotHardware {
         return height;
     }
 
-    public int FinalHeight()
-    {
-        int height;
-        height = 3;
-        wrist.setPosition(wristPosLvlOne);
-        return height;
-    }
 
     public int DownHeights(int pos)
     {
@@ -426,7 +417,21 @@ public class robotHardware {
         return height;
     }
 
-
+    public void groundDrop()
+    {
+        if (rLift.getCurrentPosition() > -85 || lLift.getCurrentPosition() > -85) {
+            flipper.setPosition(moveHover);
+            gears.setPosition(gearActive);
+            releasePixel(true);
+            gears.setPosition(gearInActive);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            flipper.setPosition(moveInActive);
+        }
+    }
 
 
 
