@@ -160,7 +160,7 @@ public class robotHardware {
         double y = -gamepad1.left_stick_y;
         double x = gamepad1.left_stick_x;
         double rx = -gamepad1.right_stick_x;
-        double slow = gamepad1.right_trigger +1;
+        double slow = (gamepad1.right_trigger*2) +1;
 
         double frLeft = y + x + rx;
         double frRight = y - x - rx  ;

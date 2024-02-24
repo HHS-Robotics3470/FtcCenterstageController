@@ -68,11 +68,11 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
 
 
 
-        if ((isSubmat1Blue || isSubmat1Red) || (redValueSubmat1 > 200 || blueValueSubmat1 > 200)) {
+        if ((isSubmat1Blue || isSubmat1Red) /*|| (redValueSubmat1 > 200 || blueValueSubmat1 > 200)*/) {
             position = 1;
-        } else if ((isSubmat0Blue || isSubmat0Red) || (redValueSubmat0 > 200 || blueValueSubmat0 > 200)){
+        } else if ((isSubmat0Blue || isSubmat0Red) /*|| (redValueSubmat0 > 200 || blueValueSubmat0 > 200)*/){
             position = 0;
-        }else if ((isSubmat2Blue || isSubmat2Red) || (redValueSubmat2 > 200 || blueValueSubmat2 > 200)) {
+        }else if ((isSubmat2Blue || isSubmat2Red) /*|| (redValueSubmat2 > 200 || blueValueSubmat2 > 200)*/) {
             position = 2;
         } else {
             position = 3;

@@ -36,7 +36,7 @@ public class RightSideAutonomous extends LinearOpMode {
             telemetry.update();
 //                MEDIUM JUNCTION STACK
 
-            auto.run_auto(robot, true, zone, new FrontAutos());
+            auto.run_auto(robot, false, zone, new FrontAutos());
             stop();
         }
     }
