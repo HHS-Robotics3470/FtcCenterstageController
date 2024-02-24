@@ -10,7 +10,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 public class SpikeDetectionPipeline extends OpenCvPipeline {
 
-    int position = 0;
+    int position = -1;
 
     Point point_x_0 = new Point(200,50);
     Point point_y_0 = new Point(300,150);
@@ -66,6 +66,8 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
         boolean isSubmat2Red = (redValueSubmat2 > greenValueSubmat2 + 45 && redValueSubmat2 > blueValueSubmat2);
         boolean isSubmat2Blue = (blueValueSubmat2 > redValueSubmat2 && blueValueSubmat2 > greenValueSubmat2 + 45);
 
+
+
         if ((isSubmat1Blue || isSubmat1Red) || (redValueSubmat1 > 200 || blueValueSubmat1 > 200)) {
             position = 1;
         } else if ((isSubmat0Blue || isSubmat0Red) || (redValueSubmat0 > 200 || blueValueSubmat0 > 200)){
@@ -88,6 +90,14 @@ public class SpikeDetectionPipeline extends OpenCvPipeline {
     }
 
     public int getSpikePosition(){
+        if (position == -1) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            getSpikePosition();
+        }
         return position;
     }
 }

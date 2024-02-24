@@ -53,7 +53,7 @@ public class robotHardware {
     public final double moveActive2 = 0.5;
     public final double moveActive = 0.5;
     public final double moveInActive = 0.607;
-    public final double moveHover = 0.58;
+    public final double moveHover = 0.57;
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
@@ -63,13 +63,14 @@ public class robotHardware {
     public final double clawOpen = 0;
     public final double clawClosed = 0.0475;
 
-    public final double[] wristPos = {0.1, 0.051, 0.028, 0.05};
-    public final double wristPosLvlOne = 0.06;
-    public final double armPosLvlOne = 0.09;
+    public final double wristGround = 0.1;
+    public final double[] wristPos = {wristGround, 0.051, 0.028, 0.02};
+    public final double wristUp = 0.11;
 
-    public final double rollActive = 0.11;
+
+    public final double rollActive = 0.1;
     public final double rollGround = 0;
-    public final double[] rollPos = {rollGround, 0.055, 0.0825, 0.1};
+    public final double[] rollPos = {rollGround, 0.055, 0.0825, 0.12};
     public final double rollDriving = 0.105;
 
 
@@ -149,7 +150,7 @@ public class robotHardware {
         hook.setPosition(hookInActive);
         claw.setPosition(clawClosed);
         arm.setPosition(rollActive);
-        wrist.setPosition(wristPos[0]);
+        wrist.setPosition(wristUp);
 
 
     }
@@ -294,7 +295,8 @@ public class robotHardware {
 
             @Override
             public void onError(int errorCode) {
-
+                myOpMode.telemetry.addData("Initialized", "Failed");
+                myOpMode.telemetry.update();
             }
         });
 
@@ -378,8 +380,9 @@ public class robotHardware {
     }
     public boolean useArm(boolean ifGround)
     {
-        wrist.setPosition(wristPos[0]);
-        return SwitchServo(arm, rollActive, rollGround, ifGround);
+
+        SwitchServo(arm, rollActive, rollGround, ifGround);
+        return SwitchServo(wrist, wristUp, wristGround, ifGround);
     }
 
     public boolean SwitchServo(Servo s, double active, double inactive, boolean isActive)
@@ -422,7 +425,15 @@ public class robotHardware {
         if (rLift.getCurrentPosition() > -85 || lLift.getCurrentPosition() > -85) {
             flipper.setPosition(moveHover);
             gears.setPosition(gearActive);
-            releasePixel(true);
+
+            dropper.setPosition(dropActive);
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            dropper.setPosition(dropInActive);
+
             gears.setPosition(gearInActive);
             try {
                 Thread.sleep(100);
@@ -436,7 +447,7 @@ public class robotHardware {
 
 
 
-    public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, double wr, boolean mirror)
+    public void setMovementPosition(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, double wr, boolean cDrop, boolean mirror)
     {
         //    for refrence
 //    return "robot.setMovementPosition("+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
@@ -467,6 +478,9 @@ public class robotHardware {
 //            setDrivePower(frRight, frLeft, baRight, baLeft);
         }
 
+        double n = 0.6;
+        setDrivePowerAuto(n,n,n,n);
+
         lLift.setTargetPosition((int) lL);
         rLift.setTargetPosition((int) rL);
 
@@ -481,6 +495,8 @@ public class robotHardware {
             flipper.setPosition(moveInActive);
         if (drop)
             releasePixel(true);
+        if (cDrop)
+            groundDrop();
         gears.setPosition(gear);
 
 
@@ -496,8 +512,7 @@ public class robotHardware {
 //        roller.setPower(0.05);
         lLift.setPower(0.5);
         rLift.setPower(0.5);
-        double n = 0.6;
-        setDrivePowerAuto(n,n,n,n);
+
 
 
     }

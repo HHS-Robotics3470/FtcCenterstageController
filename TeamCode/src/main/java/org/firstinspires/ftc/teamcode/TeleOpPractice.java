@@ -30,6 +30,7 @@ public class TeleOpPractice extends LinearOpMode {
     public boolean dpadState2b = false;
     public int markerNum = 0;
     public boolean x1State = false;
+    public boolean clawDrop = false;
 
 
 
@@ -45,7 +46,7 @@ public class TeleOpPractice extends LinearOpMode {
     {
         return "robot.setMovementPosition("+gamepad1.left_stick_y+","+gamepad1.left_stick_x+","+gamepad1.right_stick_x+","+robot.fLeft.getCurrentPosition()+","+robot.fRight.getCurrentPosition()+
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
-                ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+","+robot.wrist.getPosition()+",ifMirror);";
+                ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+","+robot.wrist.getPosition()+","+clawDrop+",ifMirror);";
     }
     @Override
     public void runOpMode() {
@@ -181,8 +182,10 @@ public class TeleOpPractice extends LinearOpMode {
                 xState = false;
             }
 
+            clawDrop = false;
             if (gamepad1.x && !x1State) {
                 robot.groundDrop();
+                clawDrop = true;
                 x1State = true;
             } else if (!gamepad1.x && x1State) {
                 x1State = false;
