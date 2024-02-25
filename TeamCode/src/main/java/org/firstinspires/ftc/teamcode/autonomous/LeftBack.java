@@ -34,7 +34,8 @@ public class LeftBack extends LinearOpMode {
             telemetry.addData("Status", "Timmy watch me! I'm playing the pre-recorded sequence");
             telemetry.update();
 //                MEDIUM JUNCTION STACK
-            auto.run_auto(robot, false, zone, new BackAutos());
+            robot.autoLimit = 550;
+            auto.run_auto(robot, true, zone, new BackAutos());
             stop();
         }
     }

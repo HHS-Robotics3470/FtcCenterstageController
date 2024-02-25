@@ -1,5 +1,13 @@
+
+
+/*
+This code brought us to regionals
+9th place in qualifiers
+gg
+* */
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -57,7 +65,7 @@ public class robotHardware {
     public final double gearActive = 0.45;
     public final double gearInActive = 0.65;
 
-    public final double hookActive = 0.52;
+    public final double hookActive = 0.072;
     public final double hookInActive = 0;
 
     public final double clawOpen = 0;
@@ -76,6 +84,11 @@ public class robotHardware {
 
     //Moter states
     public final double liftAbove = -1148;
+
+    //Other stuff
+    public double autoLimit = 1.8;
+    public int line = 0;
+    public int lineLimit = 5000;
 
     public void init(){
 
@@ -182,7 +195,8 @@ public class robotHardware {
 
     //Sets auto speed
     public void setDrivePowerAuto(double v1, double v2, double v3, double v4) {
-        double n = 1.8;
+        double n = autoLimit;
+        //1.8
         fLeft.setPower(v1/n);
         fRight.setPower(v2/n);
         bLeft.setPower(v3/n);
@@ -266,6 +280,7 @@ public class robotHardware {
 
         while ((fLeft.getTargetPosition() != fLeft.getCurrentPosition()) && (fRight.getTargetPosition() != fRight.getCurrentPosition()) && (bLeft.getTargetPosition() != bLeft.getCurrentPosition()) && (bRight.getTargetPosition() != bRight.getCurrentPosition())) {
             double n = 0.6;
+            autoLimit = 1.8;
             setDrivePowerAuto(n,n,n,n);
         }
     }
@@ -469,6 +484,19 @@ public class robotHardware {
         if (stop)
             return;
 
+        if (line >= lineLimit) {
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+                myOpMode.requestOpModeStop();
+                return;
+            }
+        }
+        else
+            line++;
+
         if(!mirror) {
             setDrivePosition(fL, fR, bL, bR);
 //            setDrivePower(frLeft, frRight, baLeft, baRight);
@@ -519,8 +547,9 @@ public class robotHardware {
 
     public void setMovementPositionAdvanced(double leftY, double leftX, double rightX, double fL, double fR, double bL, double bR, double rL, double lL, boolean drop, double move, double gear, double clawPos, double roll, boolean mirror)
     {
-        if (stop)
-            return;
+
+
+
 
         if(!mirror) {
             setDrivePosition(fL, fR, bL, bR);
