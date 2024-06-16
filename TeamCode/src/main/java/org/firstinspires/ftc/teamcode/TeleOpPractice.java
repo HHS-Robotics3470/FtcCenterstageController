@@ -107,7 +107,23 @@ public class TeleOpPractice extends LinearOpMode {
                 robot.winchUp(gamepad2.dpad_up);
             }
 
+            if (gamepad1.left_bumper){
+                robot.intakeRolling(gamepad1.left_bumper);
+            }
+            else   {
+                robot.intakeRolling(false);
+            }
 
+            //have to add reverse roller function
+            if (gamepad1.right_bumper){
+                robot.firstDrop(gamepad1.right_bumper);
+            }
+
+            //sets adjusting positions
+            if (gamepad1.y){
+                robot.resetClaw(gamepad1.y);
+                robot.adjusting((gamepad1.y));
+            }
 
             if (gamepad1.a && !aState) {
 
@@ -117,6 +133,8 @@ public class TeleOpPractice extends LinearOpMode {
             } else if (!gamepad1.a && aState) {
                 aState = false;
             }
+
+
 
             if (gamepad2.a && !a2State) {
 
@@ -175,6 +193,7 @@ public class TeleOpPractice extends LinearOpMode {
 
 
             if (gamepad2.x && !xState) {
+                robot.resetClaw(ifLifted);
                 robot.lift_pixel(ifLifted);
                 ifLifted = !ifLifted;
                 xState = true;

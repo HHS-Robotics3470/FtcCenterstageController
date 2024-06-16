@@ -35,6 +35,8 @@ public class robotHardware {
     public DcMotor rLift;
     public DcMotor winch;
 
+    public DcMotor intake;
+
     //Servos
     public Servo dropper;
     public Servo bomber;//remember to change the name for the love of god
@@ -60,16 +62,20 @@ public class robotHardware {
 
     public final double moveActive2 = 0.5;
     public final double moveActive = 0.5;
-    public final double moveInActive = 0.607;
+    public final double moveInActive = 0.613;
     public final double moveHover = 0.57;
-    public final double gearActive = 0.45;
-    public final double gearInActive = 0.65;
+    public final double gearActive = 0.34;
+    public final double gearInActive = 0.47;
+    public final double gearAdjusting = 0.65;
 
     public final double hookActive = 0.072;
     public final double hookInActive = 0;
 
-    public final double clawOpen = 0;
-    public final double clawClosed = 0.0475;
+    public final double clawOpen = 0.0398;
+    public final double clawClosed = 0.049;
+    public final double clawOpen2 = 0.0315;
+    public final double clawOpenDrop1 = 0.0401 ;
+
 
     public final double wristGround = 0.1;
     public final double[] wristPos = {wristGround, 0.051, 0.028, 0.02};
@@ -83,7 +89,7 @@ public class robotHardware {
 
 
     //Moter states
-    public final double liftAbove = -1148;
+    public final double liftAbove = -1390;
 
     //Other stuff
     public double autoLimit = 1.8;
@@ -104,6 +110,7 @@ public class robotHardware {
         rLift = myOpMode.hardwareMap.get(DcMotor.class, "rLift");
 
         winch = myOpMode.hardwareMap.get(DcMotor.class, "grabber");
+        intake = myOpMode.hardwareMap.get(DcMotor.class, "intakey");
 
         //Servos
         dropper = myOpMode.hardwareMap.get(Servo.class,"dropper");
@@ -130,6 +137,8 @@ public class robotHardware {
         rLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
         winch.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+
 
         fLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -140,6 +149,7 @@ public class robotHardware {
         rLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -150,6 +160,7 @@ public class robotHardware {
         rLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         myOpMode.telemetry.addData( "status", "initialized");
         myOpMode.telemetry.update();
@@ -362,6 +373,44 @@ public class robotHardware {
         }
     }
 
+    public void intakeRolling(boolean hgs) {
+        if (hgs) {
+            intake.setPower(5.0);
+            claw.setPosition(clawOpen2);
+        }
+        else {
+            intake.setPower(0);
+        }
+    }
+
+    public void firstDrop(boolean imh) {
+        if (imh){
+            claw.setPosition(clawOpenDrop1);
+        }
+    }
+
+    public void adjusting(boolean wth) {
+        if (wth){
+            gears.setPosition(gearAdjusting);
+        }
+    }
+
+    public void resetClaw(boolean asf){
+        if (asf){
+            claw.setPosition(clawClosed);
+        }
+    }
+    /*
+    public void intakeDisposing(boolean kys) {
+        if (kys) {
+            intake.setPower(-5.0);
+            claw.setPosition(clawOpen2);
+        }
+        else {
+            intake.setPower(0);
+        }
+    }
+*/
 
 
     public void hookRobot(boolean up){
@@ -609,6 +658,7 @@ public class robotHardware {
 
 //        roller.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         winch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
