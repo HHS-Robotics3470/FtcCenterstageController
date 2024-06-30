@@ -185,7 +185,7 @@ public class robotHardware {
         wrist.setPosition(wristUp);
 
         //LED Init
-        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
 
     }
 
@@ -427,7 +427,7 @@ public class robotHardware {
             lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
         }
         else{
-            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
         }
     }
 
