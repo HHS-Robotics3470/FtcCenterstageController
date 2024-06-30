@@ -6,6 +6,7 @@ This code brought us to regionals
 gg
 * */
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -51,6 +52,11 @@ public class robotHardware {
     public DistanceSensor leftSensor;
     public DistanceSensor rightSensor;
 
+    //Rev Blinkin
+
+    public RevBlinkinLedDriver lights;
+    public final boolean ledStart = true;
+
 
     //Servo states
     public final double dropActive = 0;
@@ -71,7 +77,7 @@ public class robotHardware {
     public final double hookActive = 0.072;
     public final double hookInActive = 0;
 
-    public final double clawOpen = 0.0398;
+    public final double clawOpen = 0.049001;
     public final double clawClosed = 0.049;
     public final double clawOpen2 = 0.0315;
     public final double clawOpenDrop1 = 0.0401 ;
@@ -126,6 +132,8 @@ public class robotHardware {
 //        leftSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance2");
         rightSensor = myOpMode.hardwareMap.get(DistanceSensor.class, "distance1");
 
+        //LED
+        lights = myOpMode.hardwareMap.get(RevBlinkinLedDriver.class, "lights");
 
         //Direction and encoders
         fLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -176,6 +184,8 @@ public class robotHardware {
         arm.setPosition(rollActive);
         wrist.setPosition(wristUp);
 
+        //LED Init
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
 
     }
 
@@ -411,6 +421,17 @@ public class robotHardware {
         }
     }
 */
+
+    public void intakingStatus (boolean hello){
+        if(hello){
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_GOLD);
+        }
+        else{
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.STROBE_BLUE);
+        }
+    }
+
+
 
 
     public void hookRobot(boolean up){

@@ -48,6 +48,8 @@ public class TeleOpPractice extends LinearOpMode {
                 ","+robot.bLeft.getCurrentPosition()+","+robot.bRight.getCurrentPosition()+","+robot.rLift.getCurrentPosition()+","+robot.lLift.getCurrentPosition()+","+
                 ifDrop +","+robot.flipper.getPosition()+","+robot.gears.getPosition()+","+robot.claw.getPosition()+","+robot.arm.getPosition()+","+robot.wrist.getPosition()+","+clawDrop+",ifMirror);";
     }
+
+
     @Override
     public void runOpMode() {
 
@@ -109,6 +111,7 @@ public class TeleOpPractice extends LinearOpMode {
 
             if (gamepad1.left_bumper){
                 robot.intakeRolling(gamepad1.left_bumper);
+                robot.intakingStatus(gamepad1.left_bumper);
             }
             else   {
                 robot.intakeRolling(false);
@@ -124,6 +127,7 @@ public class TeleOpPractice extends LinearOpMode {
                 robot.resetClaw(gamepad1.y);
                 robot.adjusting((gamepad1.y));
             }
+
 
             if (gamepad1.a && !aState) {
 
