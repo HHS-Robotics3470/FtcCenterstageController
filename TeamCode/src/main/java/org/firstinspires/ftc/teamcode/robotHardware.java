@@ -357,6 +357,7 @@ public class robotHardware {
             lLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rLift.setPower(-1);
             lLift.setPower(-1);
+
         }
     }
 
@@ -586,11 +587,7 @@ public class robotHardware {
         claw.setPosition(clawPos);
         arm.setPosition(roll);
         wrist.setPosition(wr);
-        double newMove= move;
-        if (Math.abs(newMove - moveActive2)  < 0.00001)
-            flipper.setPosition(moveActive);
-        else
-            flipper.setPosition(moveInActive);
+        flipper.setPosition(move);
         if (drop)
             releasePixel(true);
         if (cDrop)
