@@ -67,8 +67,8 @@ public class robotHardware {
 
 
     public final double moveActive2 = 0.5;
-    public final double moveActive = 0.5;
-    public final double moveInActive = 0.613;
+    public final double moveActive = 0.95;
+    public final double moveInActive = 0.02;
     public final double moveHover = 0.57;
     public final double gearActive = 0.34;
     public final double gearInActive = 0.47;
@@ -409,19 +409,20 @@ public class robotHardware {
     public void resetClaw(boolean asf){
         if (asf){
             claw.setPosition(clawClosed);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-    /*
+
     public void intakeDisposing(boolean kys) {
         if (kys) {
             intake.setPower(-5.0);
-            claw.setPosition(clawOpen2);
-        }
-        else {
-            intake.setPower(0);
         }
     }
-*/
+
 
     public void intakingStatus (boolean hello){
         if(hello){

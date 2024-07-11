@@ -113,14 +113,17 @@ public class TeleOpPractice extends LinearOpMode {
                 robot.intakeRolling(gamepad1.left_bumper);
                 robot.intakingStatus(gamepad1.left_bumper);
             }
+            else if (gamepad1.right_bumper){
+                robot.firstDrop(gamepad1.right_bumper);
+                robot.intakeDisposing(gamepad1.right_bumper);
+            }
             else   {
+                robot.intakingStatus(false);
                 robot.intakeRolling(false);
             }
 
             //have to add reverse roller function
-            if (gamepad1.right_bumper){
-                robot.firstDrop(gamepad1.right_bumper);
-            }
+
 
             //sets adjusting positions
             if (gamepad1.y){
