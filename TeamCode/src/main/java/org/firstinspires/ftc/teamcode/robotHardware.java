@@ -70,7 +70,7 @@ public class robotHardware {
     public final double moveActive = 0.95;
     public final double moveInActive = 0.02;
     public final double moveHover = 0.57;
-    public final double gearActive = 0.34;
+    public final double gearActive = 0.325;
     public final double gearInActive = 0.47;
     public final double gearAdjusting = 0.65;
 
@@ -80,7 +80,7 @@ public class robotHardware {
     public final double clawOpen = 0.049001;
     public final double clawClosed = 0.049;
     public final double clawOpen2 = 0.0315;
-    public final double clawOpenDrop1 = 0.0401 ;
+    public final double clawOpenDrop1 = 0.0375;
 
 
     public final double wristGround = 0.1;
