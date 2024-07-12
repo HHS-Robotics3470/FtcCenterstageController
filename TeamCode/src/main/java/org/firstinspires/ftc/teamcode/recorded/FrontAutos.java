@@ -62,7 +62,7 @@ public class FrontAutos extends RunAutos {
             robot.resetEncoders();
             //move towards board
             for (int chanelle = 0; chanelle < 100; chanelle++) {
-                robot.setMovementPosition(0.0, 0.0, 0.0, 175, 175, 175, 175, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
+                robot.setMovementPosition(0.0, 0.0, 0.0, 195, 195, 195, 195, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
             }
         }
         if(ifMirror){
