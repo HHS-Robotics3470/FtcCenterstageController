@@ -243,10 +243,19 @@ public class FrontAutos extends RunAutos {
         for (int katti = 0; katti < 100; katti++) {
             robot.setMovementPosition(0.0, 0.0, 0.0, 800, -800, -800, 800, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
         }
-        robot.resetEncoders();
-        //rotate 90
-        for (int gavin = 0; gavin < 100; gavin++) {
-            robot.setMovementPosition(0.0, 0.0, 0.0, -720, 720, -720, 720, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
+        if(!ifMirror) {
+            robot.resetEncoders();
+            //rotate 90
+            for (int gavin = 0; gavin < 100; gavin++) {
+                robot.setMovementPosition(0.0, 0.0, 0.0, -720, 720, -720, 720, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
+            }
+        }
+        if(ifMirror) {
+            robot.resetEncoders();
+            //rotate 90
+            for (int gavin = 0; gavin < 100; gavin++) {
+                robot.setMovementPosition(0.0, 0.0, 0.0, -700, 700, -700, 700, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
+            }
         }
         if(!ifMirror) {
             robot.resetEncoders();
@@ -259,7 +268,7 @@ public class FrontAutos extends RunAutos {
             robot.resetEncoders();
             //strafe to orient to pos
             for (int poop = 0; poop < 100; poop++) {
-                robot.setMovementPosition(0.0, 0.0, 0.0, -110, 110, 110, -110, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
+                robot.setMovementPosition(0.0, 0.0, 0.0, -70, 70, 70, -70, 0, 0, false, 0.02, 0.47, 0.049, 0.1, 0.11, false, ifMirror);
             }
         }
         if(!ifMirror) {
