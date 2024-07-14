@@ -91,6 +91,7 @@ public class TeleOpPractice extends LinearOpMode {
 
             //lift code
             if (gamepad2.right_bumper) {
+                robot.resetClawLift(gamepad2.right_bumper);
                 robot.lowerLift();
             } else if (gamepad2.left_bumper) {
                 robot.raiseLift();
@@ -127,7 +128,7 @@ public class TeleOpPractice extends LinearOpMode {
 
             //sets adjusting positions
             if (gamepad1.y){
-                robot.resetClaw(gamepad1.y);
+                robot.resetClawLift(gamepad1.y);
                 robot.adjusting((gamepad1.y));
             }
 

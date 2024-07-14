@@ -70,7 +70,7 @@ public class robotHardware {
     public final double moveActive = 0.95;
     public final double moveInActive = 0.02;
     public final double moveHover = 0.57;
-    public final double gearActive = 0.325;
+    public final double gearActive = 0.29;
     public final double gearInActive = 0.47;
     public final double gearAdjusting = 0.65;
 
@@ -98,7 +98,7 @@ public class robotHardware {
     public final double liftAbove = -1390;
 
     //Other stuff
-    public double autoLimit = 1.8;
+    public double autoLimit = 2;
     public int line = 0;
     public int lineLimit = 5000;
 
@@ -414,6 +414,11 @@ public class robotHardware {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+    public void resetClawLift(boolean asf){
+        if (asf){
+            claw.setPosition(clawClosed);
         }
     }
 
